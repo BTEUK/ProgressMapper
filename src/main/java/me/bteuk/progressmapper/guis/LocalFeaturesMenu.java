@@ -81,12 +81,13 @@ public class LocalFeaturesMenu
             //Iterate through the feature's coordinates
             for (j = 0 ; j < iCoordinates ; j++)
             {
-                //Checks to see whether the feature is close
-                if (Utils.getGeometricDistance(dPlayerCoordinates, coordinates[i]) < 500)
+                //Checks to see whether any point on the feature is close
+                if (Utils.getGeometricDistance(dPlayerCoordinates, coordinates[j]) < 500)
                 {
                     //If the feature is close, create a FeatureMenu for it and store it in the list
                     FeatureMenu featureMenu = new FeatureMenu(iMapID, mapFeatures[i], player);
                     localFeatures.add(featureMenu);
+                    break;
                 }
             }
         }
