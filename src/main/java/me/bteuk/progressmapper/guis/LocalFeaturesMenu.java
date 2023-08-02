@@ -124,11 +124,17 @@ public class LocalFeaturesMenu
         for (i = 0 ; i < iFeatures ; i++)
         {
             //Add feature
-            Utils.insertItemIntoInventory(inventory, Material.OAK_SIGN, 1, 3,(ChatColor.AQUA +getFeatureMenu(i).feature.getProperties().title));
+            Utils.insertItemIntoInventory(inventory, Material.OAK_SIGN, 1, i,(ChatColor.AQUA +getFeatureMenu(i).feature.getProperties().title));
+        }
+
+        //Barrier block
+        if (iFeatures == 0)
+        {
+            Utils.insertItemIntoInventory(inventory, Material.BARRIER, 1, i,(ChatColor.AQUA +"No map features found nearby"));
         }
 
         //Back - A button which links to the main menu
-        Utils.insertItemIntoInventory(inventory, Material.SPRUCE_DOOR, 1, (iRows*9) - 1,(ChatColor.AQUA +"Return"), "Open the navigator main menu");
+        Utils.insertItemIntoInventory(inventory, Material.SPRUCE_DOOR, 1, (iRows*9),(ChatColor.AQUA+"" +ChatColor.BOLD +"Return"), ChatColor.WHITE +"Open the navigator main menu");
 
         return inventory;
     }
