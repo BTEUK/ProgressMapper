@@ -121,7 +121,7 @@ public class FeatureMenu
         Utils.insertItemIntoInventory(inventory, Material.EMERALD, 1, 23,(ChatColor.AQUA +"Update Map"));
 
         //Back - A button which links to the coordinate menu
-        Utils.insertItemIntoInventory(inventory, Material.SPRUCE_DOOR, 1, 26,(ChatColor.AQUA +"Return"), "Return to the list of nearby map features");
+        Utils.insertItemIntoInventory(inventory, Material.SPRUCE_DOOR, 1, 26,(ChatColor.AQUA +"" +ChatColor.BOLD +"Return"), ChatColor.WHITE +"Return to the list of nearby map features");
         return inventory;
     }
 
