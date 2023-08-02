@@ -7,10 +7,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.Style;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Color;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
@@ -33,13 +30,24 @@ public class LocalFeaturesMenu
     //Contains a list of all local features
     ArrayList<FeatureMenu> localFeatures;
 
-    public LocalFeaturesMenu(int iMapID, String szMapHubAPIKey, double[] dPlayerCoordinates, Player player)
+    public LocalFeaturesMenu(int iMapID, String szMapHubAPIKey, Player player)
     {
         this.iMapID = iMapID;
-        this.dPlayerCoordinates = dPlayerCoordinates;
         this.player = player;
 
+        extractCoordinatesFromPlayer();
         loadFeatures(szMapHubAPIKey);
+    }
+
+    //Public because we may want to update the GUI whilst still keeping this same LocalFeaturesMenu object
+    private void extractCoordinatesFromPlayer()
+    {
+        dPlayerCoordinates = Utils.convertFromBukkitLocationToGeometricCoordinates(player.getLocation());
+    }
+
+    public double[] getPlayerCoordinates()
+    {
+        return dPlayerCoordinates;
     }
 
     //Public because we may want to update the GUI whilst still keeping this same LocalFeaturesMenu object

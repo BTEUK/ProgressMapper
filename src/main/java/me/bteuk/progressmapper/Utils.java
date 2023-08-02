@@ -1,5 +1,8 @@
 package me.bteuk.progressmapper;
 
+import net.buildtheearth.terraminusminus.generator.EarthGeneratorSettings;
+import net.buildtheearth.terraminusminus.projection.GeographicProjection;
+import net.buildtheearth.terraminusminus.projection.OutOfProjectionBoundsException;
 import net.buildtheearth.terraminusminus.util.geo.LatLng;
 import org.bukkit.*;
 import org.bukkit.FireworkEffect.Type;
@@ -69,6 +72,29 @@ public class Utils {
         float fDistance = (float) (iRadius * c); // in metres
 
         return fDistance;
+    }
+
+    public static double[] convertFromBukkitLocationToGeometricCoordinates(Location location)
+    {
+        double[] latLong = null;
+
+        final GeographicProjection projection = EarthGeneratorSettings.parse(EarthGeneratorSettings.BTE_DEFAULT_SETTINGS).projection();
+
+        try
+        {
+            latLong = projection.toGeo(location.x(), location.z());
+        }
+        catch (OutOfProjectionBoundsException e)
+        {
+            //Player has selected an area outside of the projection
+        }
+
+        //Switch to have lat first
+        double lat = latLong[1];
+        latLong[1] = latLong[0];
+        latLong[0] = lat;
+
+        return latLong;
     }
 
     public static ItemStack createPlayerSkull(Inventory inv, Player p, int amount, int invSlot, String displayName, String... loreString) {
