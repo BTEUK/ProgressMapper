@@ -79,12 +79,11 @@ public class LocalFeaturesMenu
             coordinates = mapFeatures[i].getGeometry().coordinates;
             iCoordinates = coordinates.length;
 
-            System.out.println("Feature first coordinate: " +coordinates[0][0] +", " +coordinates[0][1]);
-
             //Iterate through the feature's coordinates
             for (j = 0 ; j < iCoordinates ; j++)
             {
                 //Checks to see whether any point on the feature is close
+                //Feature coordinates are in Long, lat form, so are player coordinates
                 if (Utils.getGeometricDistance(dPlayerCoordinates, coordinates[j]) < 500)
                 {
                     //If the feature is close, create a FeatureMenu for it and store it in the list
