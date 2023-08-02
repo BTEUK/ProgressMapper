@@ -49,14 +49,15 @@ public class Utils {
         return item;
     }
 
+    //Long lat form
     public static float getGeometricDistance(double[] dCoordinates1, double[] dCoordinates2)
     {
         //Tpll accuracy checker
-        double dLatitude1 = dCoordinates1[0];
-        double dLatitude2 = dCoordinates2[0];
+        double dLatitude1 = dCoordinates1[1];
+        double dLatitude2 = dCoordinates2[1];
 
-        double dLongitude1 = dCoordinates1[1];
-        double dLongitude2 = dCoordinates2[1];
+        double dLongitude1 = dCoordinates1[0];
+        double dLongitude2 = dCoordinates2[0];
 
         int iRadius = 6371000; // metres
         double φ1 = dLatitude1 * Math.PI/180; // φ, λ in radians
@@ -76,25 +77,20 @@ public class Utils {
 
     public static double[] convertFromBukkitLocationToGeometricCoordinates(Location location)
     {
-        double[] latLong = null;
+        double[] longLat = null;
 
         final GeographicProjection projection = EarthGeneratorSettings.parse(EarthGeneratorSettings.BTE_DEFAULT_SETTINGS).projection();
 
         try
         {
-            latLong = projection.toGeo(location.getX(), location.getZ());
+            longLat = projection.toGeo(location.getX(), location.getZ());
         }
         catch (OutOfProjectionBoundsException e)
         {
             //Player has selected an area outside of the projection
         }
 
-        //Switch to have lat first
-        double lat = latLong[1];
-        latLong[1] = latLong[0];
-        latLong[0] = lat;
-
-        return latLong;
+        return longLat;
     }
 
     public static ItemStack createPlayerSkull(Inventory inv, Player p, int amount, int invSlot, String displayName, String... loreString) {
