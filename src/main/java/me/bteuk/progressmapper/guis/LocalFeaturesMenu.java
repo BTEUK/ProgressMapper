@@ -118,7 +118,7 @@ public class LocalFeaturesMenu
 
         //Creates the inventory
         Component component = Component.text("Edit Feature", Style.style(TextColor.color(Color.AQUA.asRGB()), TextDecoration.BOLD));
-        Inventory inventory = Bukkit.createInventory(null, iRows, component);
+        Inventory inventory = Bukkit.createInventory(null, iRows*9, component);
 
         //Creates all of the inventory items
         for (i = 0 ; i < iFeatures ; i++)

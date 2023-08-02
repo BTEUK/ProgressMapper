@@ -94,7 +94,7 @@ public class FeatureMenu
         //Would we want those edits to show up or would we just say that whoever submits last if they didn't also make the changes that first person made then it reverts back
 
         Component component = Component.text("Edit Feature", Style.style(TextColor.color(Color.AQUA.asRGB()), TextDecoration.BOLD));
-        Inventory inventory = Bukkit.createInventory(null, iRows, component);
+        Inventory inventory = Bukkit.createInventory(null, iRows*9, component);
 
         //Title
         Utils.insertItemIntoInventory(inventory, Material.COBWEB, 1, 1,(ChatColor.AQUA +"Edit Title"), ChatColor.DARK_AQUA +"Current: "+feature.getProperties().title);
