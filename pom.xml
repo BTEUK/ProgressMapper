@@ -59,6 +59,10 @@
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
+        <repository>
+            <id>DaPorkchop_</id>
+            <url>https://maven.daporkchop.net/</url>
+        </repository>
     </repositories>
 
     <dependencies>
