@@ -1,5 +1,6 @@
 package me.bteuk.progressmapper;
 
+import net.buildtheearth.terraminusminus.util.geo.LatLng;
 import org.bukkit.*;
 import org.bukkit.FireworkEffect.Type;
 import org.bukkit.entity.Firework;
@@ -43,6 +44,31 @@ public class Utils {
         inv.setItem(invSlot - 1,  item);
 
         return item;
+    }
+
+    public static float getGeometricDistance(double[] dCoordinates1, double[] dCoordinates2)
+    {
+        //Tpll accuracy checker
+        double dLatitude1 = dCoordinates1[0];
+        double dLatitude2 = dCoordinates2[0];
+
+        double dLongitude1 = dCoordinates1[1];
+        double dLongitude2 = dCoordinates2[1];
+
+        int iRadius = 6371000; // metres
+        double φ1 = dLatitude1 * Math.PI/180; // φ, λ in radians
+        double φ2 = dLatitude2 * Math.PI/180;
+        double Δφ = (dLatitude2-dLatitude1) * Math.PI/180;
+        double Δλ = (dLongitude2-dLongitude1) * Math.PI/180;
+
+        double a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+                Math.cos(φ1) * Math.cos(φ2) *
+                        Math.sin(Δλ/2) * Math.sin(Δλ/2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+        float fDistance = (float) (iRadius * c); // in metres
+
+        return fDistance;
     }
 
     public static ItemStack createPlayerSkull(Inventory inv, Player p, int amount, int invSlot, String displayName, String... loreString) {

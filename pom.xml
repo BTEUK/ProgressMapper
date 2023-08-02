@@ -73,5 +73,10 @@
             <artifactId>ProgressMapperBackEnd</artifactId>
             <version>1.0.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.SmylerMC</groupId>
+            <artifactId>terraminusminus</artifactId>
+            <version>master-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 </project>

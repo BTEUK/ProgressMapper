@@ -1,6 +1,5 @@
 package me.bteuk.progressmapper.guis;
 
-import me.bteuk.progressmapper.ProgressMapper;
 import me.bteuk.progressmapper.Utils;
 import me.bteuk.progressmapperbackend.maphubapi.actions.Append;
 import me.bteuk.progressmapperbackend.maphubapi.actions.GetMap;
@@ -62,6 +61,11 @@ public class FeatureMenu
         this.bNew = true;
     }
 
+    public boolean isNew()
+    {
+        return bNew;
+    }
+
     public Book getTitleBook()
     {
         return titleBook;
@@ -117,7 +121,7 @@ public class FeatureMenu
         Utils.insertItemIntoInventory(inventory, Material.EMERALD, 1, 23,(ChatColor.AQUA +"Update Map"));
 
         //Back - A button which links to the coordinate menu
-        Utils.insertItemIntoInventory(inventory, Material.SPRUCE_DOOR, 1, 26,(ChatColor.AQUA +"Back"));
+        Utils.insertItemIntoInventory(inventory, Material.SPRUCE_DOOR, 1, 26,(ChatColor.AQUA +"Return"), "Return to the list of nearby map features");
         return inventory;
     }
 
