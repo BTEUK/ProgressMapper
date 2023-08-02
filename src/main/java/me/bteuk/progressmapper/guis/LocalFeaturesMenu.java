@@ -119,14 +119,18 @@ public class LocalFeaturesMenu
         iRows = iRows + 2; //One empty line, then the back button
 
         //Creates the inventory
-        Component component = Component.text("Edit Feature", Style.style(TextColor.color(Color.AQUA.asRGB()), TextDecoration.BOLD));
+        Component component = Component.text("Nearby Map Features", Style.style(TextColor.color(Color.AQUA.asRGB()), TextDecoration.BOLD));
         Inventory inventory = Bukkit.createInventory(null, iRows*9, component);
 
         //Creates all of the inventory items
         for (i = 0 ; i < iFeatures ; i++)
         {
             //Add feature
-            Utils.insertItemIntoInventory(inventory, Material.OAK_SIGN, 1, i+1,(ChatColor.AQUA +getFeatureMenu(i).feature.getProperties().title));
+            String szTitle = getFeatureMenu(i).feature.getProperties().title;
+            if (szTitle == null)
+                Utils.insertItemIntoInventory(inventory, Material.OAK_SIGN, 1, i+1,(ChatColor.AQUA +"Unnamed feature"));
+            else
+                Utils.insertItemIntoInventory(inventory, Material.OAK_SIGN, 1, i+1,(ChatColor.AQUA +getFeatureMenu(i).feature.getProperties().title));
         }
 
         //Barrier block
