@@ -16,6 +16,8 @@ import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BookMeta;
 
 public class FeatureMenu
 {
@@ -27,9 +29,13 @@ public class FeatureMenu
     Player player;
 
     //Menu components
-    private Book titleBook;
-    private Book descriptionBook;
-    private Book mediaURLBook;
+    private ItemStack titleBook;
+    private ItemStack descriptionBook;
+    private ItemStack mediaURLBook;
+
+    private BookMeta titleBookMeta;
+    private BookMeta descriptionBookMeta;
+    private BookMeta mediaURLBookMeta;
 
     //Feature details
     int iMapID;
@@ -48,18 +54,33 @@ public class FeatureMenu
         this.player = player;
         this.bNew = false;
 
+
+        titleBook = new ItemStack(Material.WRITABLE_BOOK);
+        titleBookMeta = (BookMeta) titleBook.getItemMeta();
+        descriptionBook = new ItemStack(Material.WRITABLE_BOOK);
+        descriptionBookMeta = (BookMeta) titleBook.getItemMeta();
+        mediaURLBook = new ItemStack(Material.WRITABLE_BOOK);
+        mediaURLBookMeta = (BookMeta) titleBook.getItemMeta();
+
+
+        //Setup title book
         if (feature.getProperties().title == null)
-            titleBook = Book.book(Component.text("Title"), Component.text("Progress Map"), Component.text(""));
+            titleBookMeta.title(Component.text("Edit Title")).page(0, Component.text(""));
         else
-            titleBook = Book.book(Component.text("Title"), Component.text("Progress Map"), (Component.text(feature.getProperties().title)));
+            titleBookMeta.title(Component.text("Edit Title")).page(0, Component.text(feature.getProperties().title));
+
+        //Setup description book
         if (feature.getProperties().description == null)
-            descriptionBook = Book.book(Component.text("Description"), Component.text("Progress Map"), (Component.text("")));
+            descriptionBookMeta.title(Component.text("Edit Description")).page(0, Component.text(""));
         else
-            descriptionBook = Book.book(Component.text("Description"), Component.text("Progress Map"), (Component.text(feature.getProperties().description)));
+            descriptionBookMeta.title(Component.text("Edit Description")).page(0, Component.text(feature.getProperties().description));
+
+        //Setup media_url book
         if (feature.getProperties().media_url == null)
-            mediaURLBook = Book.book(Component.text("Media URL"), Component.text("Progress Map"), (Component.text("")));
+            mediaURLBookMeta.title(Component.text("Edit Media_URL")).page(0, Component.text(""));
         else
-            mediaURLBook = Book.book(Component.text("Media URL"), Component.text("Progress Map"), (Component.text(feature.getProperties().media_url)));
+            mediaURLBookMeta.title(Component.text("Edit Media_URL")).page(0, Component.text(feature.getProperties().media_url));
+
     }
 
     //Used for adding new features
@@ -75,16 +96,16 @@ public class FeatureMenu
         return bNew;
     }
 
-    public Book getTitleBook()
+    public ItemStack getTitleBook()
     {
         return titleBook;
     }
-    public Book getDescriptionBook()
+    public ItemStack getDescriptionBook()
     {
         return descriptionBook;
     }
 
-    public Book getMedialURLBook()
+    public ItemStack getMedialURLBook()
     {
         return mediaURLBook;
     }
@@ -106,12 +127,15 @@ public class FeatureMenu
         Inventory inventory = Bukkit.createInventory(null, iRows*9, component);
 
         //Title
-        Utils.insertItemIntoInventory(inventory, Material.COBWEB, 1, 1,(ChatColor.AQUA +"Edit Title"), ChatColor.DARK_AQUA +"Current: "+feature.getProperties().title);
+        if (feature.getProperties().title == null)
+            Utils.insertItemIntoInventory(inventory, Material.COBWEB, 1, 1,(ChatColor.AQUA +"Edit Title"), ChatColor.DARK_AQUA +"Current: None");
+        else
+            Utils.insertItemIntoInventory(inventory, Material.COBWEB, 1, 1,(ChatColor.AQUA +"Edit Title"), ChatColor.DARK_AQUA +"Current: "+feature.getProperties().title);
 
         //Description
         Utils.insertItemIntoInventory(inventory, Material.WRITABLE_BOOK, 1, 3,(ChatColor.AQUA +"Edit Description"), ChatColor.DARK_AQUA +"Click to view the current description and edit");
-        //Will open a book
 
+        //Colours
         if (feature.getGeometry().getType().equals("Polygon"))
             //fill
             Utils.insertItemIntoInventory(inventory, Material.GREEN_DYE, 1, 5,(ChatColor.AQUA +"Edit Colour"), ChatColor.DARK_AQUA +"Current: "+feature.getProperties().fill);
@@ -121,7 +145,10 @@ public class FeatureMenu
         //For these two we could even have an RGB thing. An RGB Indicator might be a bit hard though. We could have a "Show colour in chat message" button possibly
 
         //Media URL
-        Utils.insertItemIntoInventory(inventory, Material.PAINTING, 1, 7,(ChatColor.AQUA +"Edit media"), ChatColor.DARK_AQUA +"Current: "+feature.getProperties().media_url);
+        if (feature.getProperties().media_url == null)
+            Utils.insertItemIntoInventory(inventory, Material.PAINTING, 1, 7,(ChatColor.AQUA +"Edit media"), ChatColor.DARK_AQUA +"Current: None");
+        else
+            Utils.insertItemIntoInventory(inventory, Material.PAINTING, 1, 7,(ChatColor.AQUA +"Edit media"), ChatColor.DARK_AQUA +"Current: "+feature.getProperties().media_url);
 
         //Coordinates - A button which links to the coordinate menu
         Utils.insertItemIntoInventory(inventory, Material.MAP, 1, 9,(ChatColor.AQUA +"Edit shape and coordinates"), ChatColor.DARK_AQUA +"Click to make a new selection");
@@ -130,7 +157,7 @@ public class FeatureMenu
         Utils.insertItemIntoInventory(inventory, Material.EMERALD, 1, 23,(ChatColor.AQUA +"Update Map"));
 
         //Back - A button which links to the coordinate menu
-        Utils.insertItemIntoInventory(inventory, Material.SPRUCE_DOOR, 1, 26,(ChatColor.AQUA +"" +ChatColor.BOLD +"Return"), ChatColor.WHITE +"Return to the list of nearby map features");
+        Utils.insertItemIntoInventory(inventory, Material.SPRUCE_DOOR, 1, 27,(ChatColor.AQUA +"" +ChatColor.BOLD +"Return"), ChatColor.WHITE +"Return to the list of nearby map features");
         return inventory;
     }
 
@@ -143,7 +170,8 @@ public class FeatureMenu
         Inventory inventory = Bukkit.createInventory(null, iRows, component);
 
         Properties properties = new Properties("#555555", "Title", "Description");
-        Geometry geometry = new Geometry(GeometryType.Polygon); //All new items on the BTe UK map from the MC server will be polygons
+        properties.media_url = "";
+        Geometry geometry = new Geometry(GeometryType.Polygon); //All new items on the BTE UK map added from the MC server will be polygons
         geometry.coordinates = new double[0][2];
 
         this.feature = new Feature(geometry, properties);
