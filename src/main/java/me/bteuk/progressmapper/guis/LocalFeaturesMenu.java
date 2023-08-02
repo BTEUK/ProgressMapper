@@ -36,14 +36,14 @@ public class LocalFeaturesMenu
         this.player = player;
 
         extractCoordinatesFromPlayer();
-        loadFeatures(szMapHubAPIKey);
+        if (dPlayerCoordinates != null)
+            loadFeatures(szMapHubAPIKey);
     }
 
     //Public because we may want to update the GUI whilst still keeping this same LocalFeaturesMenu object
     private void extractCoordinatesFromPlayer()
     {
         dPlayerCoordinates = Utils.convertFromBukkitLocationToGeometricCoordinates(player.getLocation());
-        System.out.println("Player position: " +dPlayerCoordinates[0] +", " +dPlayerCoordinates[1]);
     }
 
     public double[] getPlayerCoordinates()
