@@ -48,9 +48,18 @@ public class FeatureMenu
         this.player = player;
         this.bNew = false;
 
-        titleBook = Book.book(Component.text("Title"), Component.text("Progress Map"), (Component.text(feature.getProperties().title)));
-        descriptionBook = Book.book(Component.text("Description"), Component.text("Progress Map"), (Component.text(feature.getProperties().description)));
-        mediaURLBook = Book.book(Component.text("Media URL"), Component.text("Progress Map"), (Component.text(feature.getProperties().media_url)));
+        if (feature.getProperties().title == null)
+            titleBook = Book.book(Component.text("Title"), Component.text("Progress Map"), Component.text(""));
+        else
+            titleBook = Book.book(Component.text("Title"), Component.text("Progress Map"), (Component.text(feature.getProperties().title)));
+        if (feature.getProperties().description == null)
+            descriptionBook = Book.book(Component.text("Description"), Component.text("Progress Map"), (Component.text("")));
+        else
+            descriptionBook = Book.book(Component.text("Description"), Component.text("Progress Map"), (Component.text(feature.getProperties().description)));
+        if (feature.getProperties().media_url == null)
+            mediaURLBook = Book.book(Component.text("Media URL"), Component.text("Progress Map"), (Component.text("")));
+        else
+            mediaURLBook = Book.book(Component.text("Media URL"), Component.text("Progress Map"), (Component.text(feature.getProperties().media_url)));
     }
 
     //Used for adding new features
