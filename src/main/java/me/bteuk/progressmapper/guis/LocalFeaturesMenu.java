@@ -135,8 +135,8 @@ public class LocalFeaturesMenu
             Utils.insertItemIntoInventory(inventory, Material.BARRIER, 1, 1,(ChatColor.AQUA +"No map features found nearby"));
         }
 
-        //Back - A button which links to the main menu
-        Utils.insertItemIntoInventory(inventory, Material.SPRUCE_DOOR, 1, (iRows*9),(ChatColor.AQUA+"" +ChatColor.BOLD +"Return"), ChatColor.WHITE +"Open the navigator main menu");
+        //Back - A button which links to the building menu
+        Utils.insertItemIntoInventory(inventory, Material.SPRUCE_DOOR, 1, (iRows*9),(ChatColor.AQUA+"" +ChatColor.BOLD +"Return"), ChatColor.WHITE +"Open the building menu.");
 
         return inventory;
     }
