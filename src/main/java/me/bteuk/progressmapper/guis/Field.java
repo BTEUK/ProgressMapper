@@ -1,6 +1,6 @@
 package me.bteuk.progressmapper.guis;
 
-enum Field
+public enum Field
 {
     Title, Description, Media_url
 }
