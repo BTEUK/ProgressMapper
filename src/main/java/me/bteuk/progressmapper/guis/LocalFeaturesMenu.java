@@ -43,6 +43,7 @@ public class LocalFeaturesMenu
     private void extractCoordinatesFromPlayer()
     {
         dPlayerCoordinates = Utils.convertFromBukkitLocationToGeometricCoordinates(player.getLocation());
+        System.out.println("Player position: " +dPlayerCoordinates[0] +", " +dPlayerCoordinates[1]);
     }
 
     public double[] getPlayerCoordinates()
@@ -77,6 +78,8 @@ public class LocalFeaturesMenu
             //Get the feature's coordinates
             coordinates = mapFeatures[i].getGeometry().coordinates;
             iCoordinates = coordinates.length;
+
+            System.out.println("Feature first coordinate: " +coordinates[0][0] +", " +coordinates[0][1]);
 
             //Iterate through the feature's coordinates
             for (j = 0 ; j < iCoordinates ; j++)
@@ -124,13 +127,13 @@ public class LocalFeaturesMenu
         for (i = 0 ; i < iFeatures ; i++)
         {
             //Add feature
-            Utils.insertItemIntoInventory(inventory, Material.OAK_SIGN, 1, i,(ChatColor.AQUA +getFeatureMenu(i).feature.getProperties().title));
+            Utils.insertItemIntoInventory(inventory, Material.OAK_SIGN, 1, i+1,(ChatColor.AQUA +getFeatureMenu(i).feature.getProperties().title));
         }
 
         //Barrier block
         if (iFeatures == 0)
         {
-            Utils.insertItemIntoInventory(inventory, Material.BARRIER, 1, i,(ChatColor.AQUA +"No map features found nearby"));
+            Utils.insertItemIntoInventory(inventory, Material.BARRIER, 1, 1,(ChatColor.AQUA +"No map features found nearby"));
         }
 
         //Back - A button which links to the main menu
