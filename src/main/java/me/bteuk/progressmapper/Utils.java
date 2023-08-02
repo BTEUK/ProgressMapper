@@ -82,7 +82,7 @@ public class Utils {
 
         try
         {
-            latLong = projection.toGeo(location.x(), location.z());
+            latLong = projection.toGeo(location.getX(), location.getZ());
         }
         catch (OutOfProjectionBoundsException e)
         {
