@@ -65,21 +65,21 @@ public class FeatureMenu
 
         //Setup title book
         if (feature.getProperties().title == null)
-            titleBookMeta.title(Component.text("Edit Title")).page(0, Component.text(""));
+            titleBookMeta.title(Component.text("Edit Title")).addPages(Component.text(""));
         else
-            titleBookMeta.title(Component.text("Edit Title")).page(0, Component.text(feature.getProperties().title));
+            titleBookMeta.title(Component.text("Edit Title")).addPages(Component.text(feature.getProperties().title));
 
         //Setup description book
         if (feature.getProperties().description == null)
-            descriptionBookMeta.title(Component.text("Edit Description")).page(0, Component.text(""));
+            descriptionBookMeta.title(Component.text("Edit Description")).addPages(Component.text(""));
         else
-            descriptionBookMeta.title(Component.text("Edit Description")).page(0, Component.text(feature.getProperties().description));
+            descriptionBookMeta.title(Component.text("Edit Description")).addPages(Component.text(feature.getProperties().description));
 
         //Setup media_url book
         if (feature.getProperties().media_url == null)
-            mediaURLBookMeta.title(Component.text("Edit Media_URL")).page(0, Component.text(""));
+            mediaURLBookMeta.title(Component.text("Edit Media_URL")).addPages(Component.text(""));
         else
-            mediaURLBookMeta.title(Component.text("Edit Media_URL")).page(0, Component.text(feature.getProperties().media_url));
+            mediaURLBookMeta.title(Component.text("Edit Media_URL")).addPages(Component.text(feature.getProperties().media_url));
 
     }
 
