@@ -86,6 +86,10 @@ public class FeatureMenu
         else
             mediaURLBookMeta.title(Component.text("Edit Media_URL")).addPages(Component.text(feature.getProperties().media_url));
 
+        //Adds the new metas to the books
+        titleBook.setItemMeta(titleBookMeta);
+        descriptionBook.setItemMeta(descriptionBookMeta);
+        mediaURLBook.setItemMeta(mediaURLBookMeta);
     }
 
     //Used for adding new features
@@ -190,14 +194,23 @@ public class FeatureMenu
             case Title:
                 feature.getProperties().title = szNewContent;
                 titleBookMeta.page(1, Component.text(szNewContent));
+
+                //Adds the new meta to the books
+                titleBook.setItemMeta(titleBookMeta);
                 break;
             case Description:
                 feature.getProperties().description = szNewContent;
                 descriptionBookMeta.page(1, Component.text(szNewContent));
+
+                //Adds the new meta to the books
+                descriptionBook.setItemMeta(descriptionBookMeta);
                 break;
             case Media_url:
                 feature.getProperties().media_url = szNewContent;
                 mediaURLBookMeta.page(1, Component.text(szNewContent));
+
+                //Adds the new meta to the books
+                mediaURLBook.setItemMeta(mediaURLBookMeta);
                 break;
         }
     }
