@@ -67,12 +67,12 @@ public class FeatureMenu
         titleBookMeta.setTitle("Edit Title");
         if (feature.getProperties().title == null)
         {
-            titleBookMeta.page(1, Component.text(""));
+            titleBookMeta.addPages(Component.text(""));
             System.out.println("Title was empty");
         }
         else
         {
-            titleBookMeta.page(1, Component.text(feature.getProperties().title));
+            titleBookMeta.addPages(Component.text(feature.getProperties().title));
             System.out.println("Title set as: " +titleBookMeta.page(1));
         }
 
@@ -80,12 +80,12 @@ public class FeatureMenu
         descriptionBookMeta.setTitle("Edit Description");
         if (feature.getProperties().description == null)
         {
-            descriptionBookMeta.page(1, Component.text(""));
+            descriptionBookMeta.addPages(Component.text(""));
             System.out.println("Description was empty");
         }
         else
         {
-            descriptionBookMeta.page(1, Component.text(feature.getProperties().description));
+            descriptionBookMeta.addPages(Component.text(feature.getProperties().description));
             System.out.println("Description set as: " +descriptionBookMeta.page(1));
         }
 
@@ -93,12 +93,12 @@ public class FeatureMenu
         mediaURLBookMeta.setTitle("Edit media url");
         if (feature.getProperties().media_url == null)
         {
-            mediaURLBookMeta.page(1, Component.text(""));
+            mediaURLBookMeta.addPages(Component.text(""));
             System.out.println("Media url was empty");
         }
         else
         {
-            mediaURLBookMeta.page(1, Component.text(feature.getProperties().media_url));
+            mediaURLBookMeta.addPages(Component.text(feature.getProperties().media_url));
             System.out.println("Media url set as: " +mediaURLBookMeta.page(1));
         }
 
