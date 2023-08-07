@@ -5,7 +5,6 @@ import me.bteuk.progressmapperbackend.maphubapi.actions.Append;
 import me.bteuk.progressmapperbackend.maphubapi.actions.GetMap;
 import me.bteuk.progressmapperbackend.maphubapi.actions.Update;
 import me.bteuk.progressmapperbackend.maphubapi.maphubobjects.*;
-import net.kyori.adventure.inventory.Book;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.Style;
 import net.kyori.adventure.text.format.TextColor;
@@ -65,9 +64,15 @@ public class FeatureMenu
 
         //Setup title book
         if (feature.getProperties().title == null)
+        {
             titleBookMeta.title(Component.text("Edit Title")).addPages(Component.text(""));
+            System.out.println("Title was empty");
+        }
         else
+        {
             titleBookMeta.title(Component.text("Edit Title")).addPages(Component.text(feature.getProperties().title));
+            System.out.println("Title set as: " +feature.getProperties().title);
+        }
 
         //Setup description book
         if (feature.getProperties().description == null)
@@ -184,12 +189,15 @@ public class FeatureMenu
         {
             case Title:
                 feature.getProperties().title = szNewContent;
+                titleBookMeta.page(1, Component.text(szNewContent));
                 break;
             case Description:
                 feature.getProperties().description = szNewContent;
+                descriptionBookMeta.page(1, Component.text(szNewContent));
                 break;
             case Media_url:
                 feature.getProperties().media_url = szNewContent;
+                mediaURLBookMeta.page(1, Component.text(szNewContent));
                 break;
         }
     }
