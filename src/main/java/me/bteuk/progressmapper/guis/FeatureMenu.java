@@ -6,6 +6,7 @@ import me.bteuk.progressmapperbackend.maphubapi.actions.GetMap;
 import me.bteuk.progressmapperbackend.maphubapi.actions.Update;
 import me.bteuk.progressmapperbackend.maphubapi.maphubobjects.*;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.Style;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -63,28 +64,43 @@ public class FeatureMenu
 
 
         //Setup title book
+        titleBookMeta.setTitle("Edit Title");
         if (feature.getProperties().title == null)
         {
-            titleBookMeta.title(Component.text("Edit Title")).addPages(Component.text(""));
+            titleBookMeta.page(1, Component.text(""));
             System.out.println("Title was empty");
         }
         else
         {
-            titleBookMeta.title(Component.text("Edit Title")).addPages(Component.text(feature.getProperties().title));
-            System.out.println("Title set as: " +feature.getProperties().title);
+            titleBookMeta.page(1, Component.text(feature.getProperties().title));
+            System.out.println("Title set as: " +titleBookMeta.page(1));
         }
 
         //Setup description book
+        descriptionBookMeta.setTitle("Edit Description");
         if (feature.getProperties().description == null)
-            descriptionBookMeta.title(Component.text("Edit Description")).addPages(Component.text(""));
+        {
+            descriptionBookMeta.page(1, Component.text(""));
+            System.out.println("Description was empty");
+        }
         else
-            descriptionBookMeta.title(Component.text("Edit Description")).addPages(Component.text(feature.getProperties().description));
+        {
+            descriptionBookMeta.page(1, Component.text(feature.getProperties().description));
+            System.out.println("Description set as: " +descriptionBookMeta.page(1));
+        }
 
         //Setup media_url book
+        mediaURLBookMeta.setTitle("Edit media url");
         if (feature.getProperties().media_url == null)
-            mediaURLBookMeta.title(Component.text("Edit Media_URL")).addPages(Component.text(""));
+        {
+            mediaURLBookMeta.page(1, Component.text(""));
+            System.out.println("Media url was empty");
+        }
         else
-            mediaURLBookMeta.title(Component.text("Edit Media_URL")).addPages(Component.text(feature.getProperties().media_url));
+        {
+            mediaURLBookMeta.page(1, Component.text(feature.getProperties().media_url));
+            System.out.println("Media url set as: " +mediaURLBookMeta.page(1));
+        }
 
         //Adds the new metas to the books
         titleBook.setItemMeta(titleBookMeta);
@@ -107,6 +123,8 @@ public class FeatureMenu
 
     public ItemStack getTitleBook()
     {
+        System.out.println("Title of book: " +((BookMeta) titleBook.getItemMeta()).getTitle());
+        System.out.println("First page of book: " +((TextComponent) ((BookMeta) titleBook.getItemMeta()).page(1)).content());
         return titleBook;
     }
     public ItemStack getDescriptionBook()
