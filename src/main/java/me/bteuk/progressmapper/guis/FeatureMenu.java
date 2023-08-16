@@ -45,6 +45,9 @@ public class FeatureMenu
     //If true, it represents a new feature
     //If false, it represents a current feature
 
+    //Colour GUI
+    private ColourPicker colourPicker;
+
     //Used for editing existing features
     public FeatureMenu(int iMapID, Feature feature, Player player)
     {
@@ -53,6 +56,7 @@ public class FeatureMenu
         this.player = player;
         this.bNew = false;
 
+        this.colourPicker = new ColourPicker(feature, player);
 
         titleBook = new ItemStack(Material.WRITABLE_BOOK);
         titleBookMeta = (BookMeta) titleBook.getItemMeta();
@@ -132,6 +136,11 @@ public class FeatureMenu
     public ItemStack getMedialURLBook()
     {
         return mediaURLBook;
+    }
+
+    public ColourPicker getColourPicker()
+    {
+        return colourPicker;
     }
 
     public Inventory getGUI()
