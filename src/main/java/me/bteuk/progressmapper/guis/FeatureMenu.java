@@ -6,6 +6,7 @@ import me.bteuk.progressmapperbackend.maphubapi.actions.GetMap;
 import me.bteuk.progressmapperbackend.maphubapi.actions.Update;
 import me.bteuk.progressmapperbackend.maphubapi.maphubobjects.*;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.Style;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -13,10 +14,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
+
+import java.util.ArrayList;
 
 public class FeatureMenu
 {
@@ -169,14 +173,23 @@ public class FeatureMenu
         Utils.insertItemIntoInventory(inventory, Material.WRITABLE_BOOK, 1, 3,(ChatColor.AQUA +"Edit Description"), ChatColor.DARK_AQUA +"Click to view the current description and edit");
 
         //Colours
-        if (feature.getGeometry().getType().equals("Polygon"))
-            //fill
-            Utils.insertItemIntoInventory(inventory, Material.GREEN_DYE, 1, 5,(ChatColor.AQUA +"Edit Colour"), ChatColor.DARK_AQUA +"Current: "+feature.getProperties().fill);
-        else if (feature.getGeometry().getType().equals("LineString"))
-            //stroke
-            Utils.insertItemIntoInventory(inventory, Material.GREEN_DYE, 1, 5,(ChatColor.AQUA +"Edit Colour"), ChatColor.DARK_AQUA +"Current: "+feature.getProperties().stroke);
-        //For these two we could even have an RGB thing. An RGB Indicator might be a bit hard though. We could have a "Show colour in chat message" button possibly
+        Component iconTitle = Component.text("Edit Colour", Style.style(TextColor.color(Color.AQUA.asRGB())));
+        
+        // Sets up the lore
+        Component iconLoreLine1 = Component.text("");
+        if (feature.getGeometry().getType().equals(GeometryType.Polygon))
+            iconLoreLine1 = Component.text("Current: "+feature.getProperties().fill, Style.style(TextColor.fromHexString(feature.getProperties().fill)));
+        else if (feature.getGeometry().getType().equals(GeometryType.LineString))
+            iconLoreLine1 = Component.text("Current: "+feature.getProperties().stroke, Style.style(TextColor.fromHexString(feature.getProperties().stroke)));
+        
+        ArrayList<Component> iconLore = new ArrayList<>();
+        iconLore.add(iconLoreLine1);
 
+        //Inserts the item into the inventory
+        Utils.insertItemIntoInventoryViaComponents(inventory, Material.ORANGE_WOOL, 1, 5, iconTitle, iconLore);
+
+        //For these two we could even have an RGB thing. An RGB Indicator might be a bit hard though. We could have a "Show colour in chat message" button possibly, or have the Text in the icons coloured correctly
+        
         //Media URL
         if (feature.getProperties().media_url == null)
             Utils.insertItemIntoInventory(inventory, Material.PAINTING, 1, 7,(ChatColor.AQUA +"Edit media"), ChatColor.DARK_AQUA +"Current: None");
