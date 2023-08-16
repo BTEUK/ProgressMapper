@@ -6,7 +6,6 @@ import me.bteuk.progressmapperbackend.maphubapi.actions.GetMap;
 import me.bteuk.progressmapperbackend.maphubapi.actions.Update;
 import me.bteuk.progressmapperbackend.maphubapi.maphubobjects.*;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.Style;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -123,8 +122,6 @@ public class FeatureMenu
 
     public ItemStack getTitleBook()
     {
-        System.out.println("Title of book: " +((BookMeta) titleBook.getItemMeta()).getTitle());
-        System.out.println("First page of book: " +((TextComponent) ((BookMeta) titleBook.getItemMeta()).page(1)).content());
         return titleBook;
     }
     public ItemStack getDescriptionBook()

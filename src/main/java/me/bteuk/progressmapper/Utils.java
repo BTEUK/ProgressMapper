@@ -4,6 +4,7 @@ import net.buildtheearth.terraminusminus.generator.EarthGeneratorSettings;
 import net.buildtheearth.terraminusminus.projection.GeographicProjection;
 import net.buildtheearth.terraminusminus.projection.OutOfProjectionBoundsException;
 import net.buildtheearth.terraminusminus.util.geo.LatLng;
+import net.kyori.adventure.text.Component;
 import org.bukkit.*;
 import org.bukkit.FireworkEffect.Type;
 import org.bukkit.entity.Firework;
@@ -30,7 +31,7 @@ public class Utils {
         List<String> lore = new ArrayList<String>();
 
         //Creates a new item for the specified material
-        item = new ItemStack(material);
+        item = new ItemStack(material, amount);
 
         //Creates the meta for the item
         ItemMeta meta = item.getItemMeta();
@@ -39,6 +40,32 @@ public class Utils {
             lore.add(Utils.chat(s));
         }
         meta.setLore(lore);
+
+        //Adds the meta to the item
+        item.setItemMeta(meta);
+
+        //Sets the item in the inventory
+        inv.setItem(invSlot - 1,  item);
+
+        return item;
+    }
+
+    //
+    public static ItemStack insertItemIntoInventoryViaComponents(Inventory inv, Material material, int amount, int invSlot, Component displayName, List<Component> loreLines) {
+
+        ItemStack item;
+
+        //Creates a new item for the specified material
+        item = new ItemStack(material, amount);
+
+        //Creates the meta for the item
+        ItemMeta meta = item.getItemMeta();
+
+        //Sets the display name
+        meta.displayName(displayName);
+
+        //Sets the lore
+        meta.lore(loreLines);
 
         //Adds the meta to the item
         item.setItemMeta(meta);
