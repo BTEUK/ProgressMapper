@@ -2,10 +2,13 @@ package me.bteuk.progressmapper;
 
 import me.bteuk.progressmapperbackend.maphubapi.maphubobjects.Feature;
 import me.bteuk.progressmapperbackend.maphubapi.maphubobjects.GeometryType;
-import org.bukkit.Color;
-import org.bukkit.Location;
-import org.bukkit.Particle;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.Style;
+import net.kyori.adventure.text.format.TextColor;
+import net.kyori.adventure.text.format.TextDecoration;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 
 import java.util.ArrayList;
 
@@ -13,6 +16,8 @@ public class GeometryEditor
 {
     private Feature feature;
     private Player player;
+
+    private static final int iRows = 3;
 
     //A list of minecraft coordinates making up the geometry, tracked by this class
     private ArrayList<BlockCoordinates> blockCoordinatesList;
@@ -34,10 +39,23 @@ public class GeometryEditor
         return this.blockCoordinatesList;
     }
 
+    public Inventory getGUI()
+    {
+        //3 is cancel
+        //7 is confirm
+        Component component = Component.text("Confirm area", Style.style(TextColor.color(Color.AQUA.asRGB()), TextDecoration.BOLD));
+        Inventory inventory = Bukkit.createInventory(null, iRows * 9, component);
+
+        Utils.insertItemIntoInventory(inventory, Material.BARRIER, 1, 3,(ChatColor.AQUA +"Cancel edit"), ChatColor.DARK_AQUA +"Restore to original area");
+        Utils.insertItemIntoInventory(inventory, Material.EMERALD, 1, 7,(ChatColor.AQUA +"Confirm edit"), ChatColor.DARK_AQUA +"Save the area. Click the emerald on the Feature Menu to upload these changes.");
+
+        return inventory;
+    }
+
     /**
      * Creates a list of minecraft block coordinates from the geometry of the feature and saves this in the list
      */
-    private void convertFeatureGeometryIntoBlockCoordinates()
+    public void convertFeatureGeometryIntoBlockCoordinates()
     {
         ArrayList<BlockCoordinates> blockCoordinatesList = new ArrayList<>();
         double[][] dCoordinatesOfGeometry = feature.getGeometry().coordinates;

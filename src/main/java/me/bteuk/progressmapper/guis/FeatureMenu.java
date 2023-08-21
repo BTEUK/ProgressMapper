@@ -206,7 +206,7 @@ public class FeatureMenu
             Utils.insertItemIntoInventory(inventory, Material.PAINTING, 1, 7,(ChatColor.AQUA +"Edit media"), ChatColor.DARK_AQUA +"Current: "+feature.getProperties().media_url);
 
         //Coordinates - A button which links to the coordinate menu
-        Utils.insertItemIntoInventory(inventory, Material.MAP, 1, 9,(ChatColor.AQUA +"Edit shape and coordinates"), ChatColor.DARK_AQUA +"Click to make a new selection");
+        Utils.insertItemIntoInventory(inventory, Material.MAP, 1, 9,(ChatColor.AQUA +"Edit shape and coordinates"), ChatColor.DARK_AQUA +"Click to edit the area or view the current area");
 
         //Send update - A button which links to the coordinate menu
         Utils.insertItemIntoInventory(inventory, Material.EMERALD, 1, 23,(ChatColor.AQUA +"Update Map"));
