@@ -54,7 +54,7 @@ public class LocalFeaturesMenu
     //Public because we may want to update the GUI whilst still keeping this same LocalFeaturesMenu object
     public void loadFeatures(String szMapHubAPIKey)
     {
-        map = GetMap.getMap(szMapHubAPIKey, iMapID);
+        map = GetMap.getMap(szMapHubAPIKey, iMapID, false);
         locateLocalFeaturesAndCreateAndStoreTheirFeatureMenus();
     }
 
