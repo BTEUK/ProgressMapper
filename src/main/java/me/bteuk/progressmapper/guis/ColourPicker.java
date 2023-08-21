@@ -8,7 +8,6 @@ import net.kyori.adventure.text.format.Style;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.*;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
 import java.util.ArrayList;
@@ -22,7 +21,7 @@ public class ColourPicker
     public static final TextColor Dark_Red = TextColor.color(Integer.parseInt("cc1b15", 16));
     public static final TextColor Red = TextColor.color(Integer.parseInt("e32c31", 16));
     public static final TextColor Dark_Orange = TextColor.color(Integer.parseInt("fb6033", 16));
-    public static final TextColor Orange = TextColor.color(Integer.parseInt("fb6033", 16));
+    public static final TextColor Orange = TextColor.color(Integer.parseInt("f18729", 16));
     public static final TextColor Light_Orange = TextColor.color(Integer.parseInt("f1ae29", 16));
     public static final TextColor Yellow = TextColor.color(Integer.parseInt("ffcc00", 16));
     public static final TextColor Bright_Yellow = TextColor.color(Integer.parseInt("fff700", 16));
