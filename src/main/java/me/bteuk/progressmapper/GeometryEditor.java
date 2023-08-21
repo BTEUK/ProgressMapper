@@ -114,7 +114,7 @@ public class GeometryEditor
         feature.getGeometry().coordinates = convertFeatureGeometryIntoGeometric();
         for (int i = 0 ; i < feature.getGeometry().coordinates.length ; i++)
         {
-            System.out.println();
+            System.out.println(feature.getGeometry().coordinates[0] +", " +feature.getGeometry().coordinates[1]);
         }
     }
 
