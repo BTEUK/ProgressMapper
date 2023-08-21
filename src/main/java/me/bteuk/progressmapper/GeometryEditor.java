@@ -30,6 +30,7 @@ public class GeometryEditor
         this.feature = feature;
         this.player = player;
 
+        this.blockCoordinatesList = new ArrayList<>();
         convertFeatureGeometryIntoBlockCoordinates();
         updatePerimeterBlocksList();
     }
@@ -138,7 +139,7 @@ public class GeometryEditor
     private void updatePerimeterBlocksList()
     {
         int i, j;
-        int iNumPoints = blockCoordinatesList.size();
+        int iNumPoints;
         int iNumLocations;
         long[] xzCoordinates;
         int[] iPoint1;
@@ -147,6 +148,8 @@ public class GeometryEditor
 
         //Resets the perimeterBlocksList
         perimeterBlocksList = new ArrayList<>();
+
+        iNumPoints = blockCoordinatesList.size();
 
         //Goes through all points on the geometry perimeter
         for (i = 0 ; i < iNumPoints - 1 ; i++)
