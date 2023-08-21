@@ -294,6 +294,9 @@ public class ColourPicker
             this.textColour = TextColor.color(textColour.red(), textColour.green(), 0);
     }
 
+    /**
+     * Saves the colour of the feature being edited to the feature's object
+     */
     public void confirmColour()
     {
         switch (geometryType)

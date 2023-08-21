@@ -1,12 +1,13 @@
 package me.bteuk.progressmapper.guis;
 
+import me.bteuk.progressmapper.BlockCoordinates;
+import me.bteuk.progressmapper.GeometryEditor;
 import me.bteuk.progressmapper.Utils;
 import me.bteuk.progressmapperbackend.maphubapi.actions.Append;
 import me.bteuk.progressmapperbackend.maphubapi.actions.GetMap;
 import me.bteuk.progressmapperbackend.maphubapi.actions.Update;
 import me.bteuk.progressmapperbackend.maphubapi.maphubobjects.*;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.Style;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -14,7 +15,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
-import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -52,6 +52,9 @@ public class FeatureMenu
     //Colour GUI
     private ColourPicker colourPicker;
 
+    //Geometry handler
+    private GeometryEditor geometryEditor;
+
     //Used for editing existing features
     public FeatureMenu(int iMapID, Feature feature, Player player)
     {
@@ -61,6 +64,7 @@ public class FeatureMenu
         this.bNew = false;
 
         this.colourPicker = new ColourPicker(feature, player);
+        this.geometryEditor = new GeometryEditor(feature, player);
 
         titleBook = new ItemStack(Material.WRITABLE_BOOK);
         titleBookMeta = (BookMeta) titleBook.getItemMeta();
@@ -145,6 +149,11 @@ public class FeatureMenu
     public ColourPicker getColourPicker()
     {
         return colourPicker;
+    }
+
+    public GeometryEditor getGeometryEditor()
+    {
+        return geometryEditor;
     }
 
     public Inventory getGUI()

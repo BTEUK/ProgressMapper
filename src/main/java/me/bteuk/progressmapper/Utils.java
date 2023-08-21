@@ -120,6 +120,41 @@ public class Utils {
         return longLat;
     }
 
+    public static double[] convertFromMcCoordinatesToGeometricCoordinates(long x, long z)
+    {
+        double[] longLat = null;
+
+        final GeographicProjection projection = EarthGeneratorSettings.parse(EarthGeneratorSettings.BTE_DEFAULT_SETTINGS).projection();
+
+        try
+        {
+            longLat = projection.toGeo(x, z);
+        }
+        catch (OutOfProjectionBoundsException e)
+        {
+            //Player has selected an area outside of the projection
+        }
+
+        return longLat;
+    }
+
+    public static double[] convertToMCCoordinates(double dLatitude, double dLongitude)
+    {
+        double[] xz = null;
+
+        final GeographicProjection projection = EarthGeneratorSettings.parse(EarthGeneratorSettings.BTE_DEFAULT_SETTINGS).projection();
+
+        try
+        {
+            xz = projection.fromGeo(dLongitude, dLatitude);
+        }
+        catch (OutOfProjectionBoundsException e)
+        {
+            //Player has selected an area outside of the projection
+        }
+        return xz;
+    }
+
     public static ItemStack createPlayerSkull(Inventory inv, Player p, int amount, int invSlot, String displayName, String... loreString) {
 
         ItemStack item;
