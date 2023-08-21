@@ -58,7 +58,6 @@ public class GeometryEditor
      */
     public void convertFeatureGeometryIntoBlockCoordinates()
     {
-        ArrayList<BlockCoordinates> blockCoordinatesList = new ArrayList<>();
         double[][] dCoordinatesOfGeometry = feature.getGeometry().coordinates;
         int iNumCoordinates = dCoordinatesOfGeometry.length;
         int i;
@@ -71,7 +70,7 @@ public class GeometryEditor
             dLongitude = dCoordinatesOfGeometry[i][1];
 
             BlockCoordinates blockCoordinates = new BlockCoordinates(dLatitude, dLongitude);
-            blockCoordinatesList.add(blockCoordinates);
+            this.blockCoordinatesList.add(blockCoordinates);
         }
     }
 
@@ -113,12 +112,16 @@ public class GeometryEditor
     public void confirmGeometry()
     {
         feature.getGeometry().coordinates = convertFeatureGeometryIntoGeometric();
+        for (int i = 0 ; i < feature.getGeometry().coordinates.length ; i++)
+        {
+            System.out.println();
+        }
     }
 
     public void leftClick(long x, long z)
     {
         //Resets the list
-        ArrayList<BlockCoordinates> blockCoordinatesList = new ArrayList<>();
+        this.blockCoordinatesList = new ArrayList<>();
 
         //Adds the first point
         blockCoordinatesList.add(new BlockCoordinates(x, z));

@@ -75,7 +75,7 @@
         <dependency>
             <groupId>com.github.BTEUK</groupId>
             <artifactId>ProgressMapperBackEnd</artifactId>
-            <version>1.0.1</version>
+            <version>a790e41d39</version>
         </dependency>
         <dependency>
             <groupId>com.github.SmylerMC</groupId>

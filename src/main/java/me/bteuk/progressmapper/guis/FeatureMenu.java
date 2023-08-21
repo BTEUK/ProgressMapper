@@ -1,6 +1,5 @@
 package me.bteuk.progressmapper.guis;
 
-import me.bteuk.progressmapper.BlockCoordinates;
 import me.bteuk.progressmapper.GeometryEditor;
 import me.bteuk.progressmapper.Utils;
 import me.bteuk.progressmapperbackend.maphubapi.actions.Append;
@@ -268,7 +267,7 @@ public class FeatureMenu
     public void sendUpdate(String szMapHubAPIKey)
     {
         //Fetches the map from the API again. We want to be editing the latest version and then sending that as the Update.
-        GetMap getMap = GetMap.getMap(szMapHubAPIKey, iMapID);
+        GetMap getMap = GetMap.getMap(szMapHubAPIKey, iMapID, false);
         Geojson mapData = getMap.getGeojson();
         Feature[] features = mapData.getFeatures();
         int iNumFeatures = features.length;
@@ -295,7 +294,7 @@ public class FeatureMenu
             //Replace the old feature with the new one
             mapData.getFeatures()[iIndex] = feature;
             //Send the new geojson as an update
-            Update.sendMapUpdate(szMapHubAPIKey, iMapID, mapData);
+            Update.sendMapUpdate(szMapHubAPIKey, iMapID, mapData, false);
         }
     }
 
@@ -303,6 +302,6 @@ public class FeatureMenu
     {
         //Append a new feature
         Geojson geojson = new Geojson(new Feature[]{feature});
-        Append.sendMapAppend(szMapHubAPIKey, iMapID, geojson);
+        Append.sendMapAppend(szMapHubAPIKey, iMapID, geojson, false);
     }
 }
