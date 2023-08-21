@@ -167,9 +167,27 @@ public class GeometryEditor
             //Adds all of the points on this line to the perimeter blocks list
             for (j = 0 ; j < iNumLocations ; j++)
             {
-                perimeterBlocksList.add(locations.get(i));
+                perimeterBlocksList.add(locations.get(j));
             }
         }
+
+        //Calculates the line between the first and last points on the perimeter
+        xzCoordinates = blockCoordinatesList.get(iNumPoints - 1).xzCoordinates;
+        iPoint1 = new int[]{(int) xzCoordinates[0], (int) xzCoordinates[1]};
+
+        xzCoordinates = blockCoordinatesList.get(0).xzCoordinates;
+        iPoint2 = new int[]{(int) xzCoordinates[0], (int) xzCoordinates[1]};
+
+        locations = Utils.LineCalculator2D(iPoint1, iPoint2, this.player.getWorld());
+        iNumLocations = locations.size();
+
+        //Adds all of the points on this line to the perimeter blocks list
+        for (j = 0 ; j < iNumLocations ; j++)
+        {
+            perimeterBlocksList.add(locations.get(j));
+        }
+
+        updateView();
     }
 
     public void updateView()
