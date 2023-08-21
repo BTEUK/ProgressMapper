@@ -41,7 +41,6 @@ public class ColourPicker
 
     //Inventory details
     private final int iRows = 5;
-    private Player player;
 
     //Feature details
     private Feature feature;
@@ -52,10 +51,9 @@ public class ColourPicker
     //Tracks the designated colour
     private TextColor textColour;
 
-    public ColourPicker(Feature feature, Player player)
+    public ColourPicker(Feature feature)
     {
         this.feature = feature;
-        this.player = player;
 
         this.geometryType = feature.getGeometry().getType();
 

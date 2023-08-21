@@ -63,7 +63,7 @@ public class FeatureMenu
         this.player = player;
         this.bNew = false;
 
-        this.colourPicker = new ColourPicker(feature, player);
+        this.colourPicker = new ColourPicker(feature);
         this.geometryEditor = new GeometryEditor(feature, player);
 
         titleBook = new ItemStack(Material.WRITABLE_BOOK);

@@ -2,6 +2,9 @@ package me.bteuk.progressmapper;
 
 import me.bteuk.progressmapperbackend.maphubapi.maphubobjects.Feature;
 import me.bteuk.progressmapperbackend.maphubapi.maphubobjects.GeometryType;
+import org.bukkit.Color;
+import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -14,10 +17,21 @@ public class GeometryEditor
     //A list of minecraft coordinates making up the geometry, tracked by this class
     private ArrayList<BlockCoordinates> blockCoordinatesList;
 
+    //A list of locations of perimeter blocks, used for
+    private ArrayList<Location> perimeterBlocksList;
+
     public GeometryEditor(Feature feature, Player player)
     {
         this.feature = feature;
         this.player = player;
+
+        convertFeatureGeometryIntoBlockCoordinates();
+        updatePerimeterBlocksList();
+    }
+
+    public ArrayList<BlockCoordinates> getBlockCoordinatesList()
+    {
+        return this.blockCoordinatesList;
     }
 
     /**
@@ -89,11 +103,63 @@ public class GeometryEditor
 
         //Adds the first point
         blockCoordinatesList.add(new BlockCoordinates(x, z));
+
+        //Updates the perimeter blocks list, which also updates the players view
+        updatePerimeterBlocksList();
     }
 
     public void rightClick(long x, long z)
     {
         //Adds a point
         blockCoordinatesList.add(new BlockCoordinates(x, z));
+
+        //Updates the perimeter blocks list, which also updates the players view
+        updatePerimeterBlocksList();
+    }
+
+    private void updatePerimeterBlocksList()
+    {
+        int i, j;
+        int iNumPoints = blockCoordinatesList.size();
+        int iNumLocations;
+        long[] xzCoordinates;
+        int[] iPoint1;
+        int[] iPoint2;
+        ArrayList<Location> locations;
+
+        //Resets the perimeterBlocksList
+        perimeterBlocksList = new ArrayList<>();
+
+        //Goes through all points on the geometry perimeter
+        for (i = 0 ; i < iNumPoints - 1 ; i++)
+        {
+            //Calculates the line between two points on the perimeter
+            xzCoordinates = blockCoordinatesList.get(i).xzCoordinates;
+            iPoint1 = new int[]{(int) xzCoordinates[0], (int) xzCoordinates[1]};
+
+            xzCoordinates = blockCoordinatesList.get(i+1).xzCoordinates;
+            iPoint2 = new int[]{(int) xzCoordinates[0], (int) xzCoordinates[1]};
+
+            locations = Utils.LineCalculator2D(iPoint1, iPoint2, this.player.getWorld());
+            iNumLocations = locations.size();
+
+            //Adds all of the points on this line to the perimeter blocks list
+            for (j = 0 ; j < iNumLocations ; j++)
+            {
+                perimeterBlocksList.add(locations.get(i));
+            }
+        }
+    }
+
+    public void updateView()
+    {
+        int i;
+        int iNumLocations = this.perimeterBlocksList.size();
+
+        //Displays the particles along this line
+        for (i = 0 ; i < iNumLocations ; i++)
+        {
+            this.player.spawnParticle(Particle.REDSTONE, this.perimeterBlocksList.get(i), 10, new Particle.DustOptions(Color.GREEN, 3));
+        }
     }
 }

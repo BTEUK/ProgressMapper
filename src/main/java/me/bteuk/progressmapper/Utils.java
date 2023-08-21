@@ -155,51 +155,49 @@ public class Utils {
         return xz;
     }
 
-    public static ItemStack createPlayerSkull(Inventory inv, Player p, int amount, int invSlot, String displayName, String... loreString) {
+    public static ArrayList<Location> LineCalculator2D(int[] iSelectedBlockCoordinates1, int[] iSelectedBlockCoordinates2, World bukkitWorld)
+    {
+        //In this method, see if you can utilise the world edit api
+        ArrayList<Location> line = null;
+        line = new ArrayList<>();
+        int dx = Math.abs(iSelectedBlockCoordinates1[0]-iSelectedBlockCoordinates2[0]);
+        int dz = Math.abs(iSelectedBlockCoordinates1[1]-iSelectedBlockCoordinates2[1]);
 
-        ItemStack item;
+        double dMax = Math.max(dx, dz);
 
-        List<String> lore = new ArrayList<String>();
+        int x1 = iSelectedBlockCoordinates1[0];
+        int x2 = iSelectedBlockCoordinates2[0];
+        int z1 = iSelectedBlockCoordinates1[1];
+        int z2 = iSelectedBlockCoordinates2[1];
 
-        item = new ItemStack(Material.PLAYER_HEAD);
-
-        SkullMeta meta = (SkullMeta) item.getItemMeta();
-        meta.setDisplayName(Utils.chat(displayName));
-        for (String s : loreString) {
-            lore.add(Utils.chat(s));
+        if (dx + dz == 0)
+        {
+            line.add(new Location(bukkitWorld, x1, bukkitWorld.getHighestBlockYAt(x1, z1), z1));
         }
-        meta.setLore(lore);
-        meta.setOwningPlayer(p);
-        item.setItemMeta(meta);
-
-        inv.setItem(invSlot - 1,  item);
-
-        return item;
-
-    }
-
-    public static boolean isPlayerInGroup(Player player, String group) {
-        return player.hasPermission("group." + group);
-    }
-
-    public static void spawnFireWork(Player p) {
-
-        Firework f = p.getWorld().spawn(p.getLocation(), Firework.class);
-        FireworkMeta fm = f.getFireworkMeta();
-        fm.addEffect(FireworkEffect.builder().flicker(true).trail(true).with(Type.BALL_LARGE).withColor(Color.RED).withColor(Color.BLUE).withColor(Color.WHITE).build());
-        fm.setPower(1);
-        f.setFireworkMeta(fm);
-
-
-    }
-
-    public static int getHighestYAt(World w, int x, int z) {
-
-        for (int i = 255; i >= 0; i--) {
-            if (w.getBlockAt(x, i, z).getType() != Material.AIR) {
-                return i+1;
+        else
+        {
+            int tipx;
+            int tipz;
+            int domstep;
+            if (dMax == dx)
+            {
+                for(domstep = 0; domstep <= dx; domstep++)
+                {
+                    tipx = x1 + domstep * (x2 - x1 > 0 ? 1 : -1);
+                    tipz = (int)Math.round((double)z1 + (double)domstep * (double)dz / (double)dx * (double)(z2 - z1 > 0 ? 1 : -1));
+                    line.add(new Location(bukkitWorld, tipx, bukkitWorld.getHighestBlockYAt(tipx, tipz) + 1, tipz));
+                }
+            }
+            else
+            {
+                for(domstep = 0; domstep <= dz; ++domstep)
+                {
+                    tipz = z1 + domstep * (z2 - z1 > 0 ? 1 : -1);
+                    tipx = (int)Math.round((double)x1 + (double)domstep * (double)dx / (double)dz * (double)(x2 - x1 > 0 ? 1 : -1));
+                    line.add(new Location(bukkitWorld, tipx, bukkitWorld.getHighestBlockYAt(tipx, tipz) + 1, tipz));
+                }
             }
         }
-        return 0;
+        return line;
     }
 }
