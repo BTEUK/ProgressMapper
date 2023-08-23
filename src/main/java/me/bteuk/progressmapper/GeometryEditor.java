@@ -223,13 +223,15 @@ public class GeometryEditor
         Location spawnParticleLocation = new Location(player.getWorld(), 0, 0, 0);
 
         //Displays the particles along the outline of the NEW area
-        this.player.spawnParticle(Particle.REDSTONE, this.perimeterBlocksList.get(0), 10, new Particle.DustOptions(colourPicker.getBukkitColorObjectFromColour(), 6));
+        if (iNumLocations > 0)
+            this.player.spawnParticle(Particle.REDSTONE, this.perimeterBlocksList.get(0), 10, new Particle.DustOptions(colourPicker.getBukkitColorObjectFromColour(), 6));
         for (i = 1 ; i < iNumLocations - 1; i++)
         {
             spawnParticleLocation.add(this.perimeterBlocksList.get(i), 0.5, 0, 0.5);
             this.player.spawnParticle(Particle.REDSTONE, spawnParticleLocation, 10, new Particle.DustOptions(colourPicker.getBukkitColorObjectFromColour(), 4));
         }
-        this.player.spawnParticle(Particle.REDSTONE, this.perimeterBlocksList.get(iNumLocations-1), 10, new Particle.DustOptions(colourPicker.getBukkitColorObjectFromColour(), 6));
+        if (iNumLocations > 1)
+            this.player.spawnParticle(Particle.REDSTONE, this.perimeterBlocksList.get(iNumLocations-1), 10, new Particle.DustOptions(colourPicker.getBukkitColorObjectFromColour(), 6));
 
         ArrayList<Location> locations;
 
@@ -241,7 +243,7 @@ public class GeometryEditor
 
 
         //Displays the particles along the outline of the OLD area
-        for (i = 0 ; i < iNumLocations ; i++)
+        for (i = 0 ; i < iNumLocations - 1 ; i++)
         {
             //Each POINT on the OLD outline
             double[] mcCoordsXZ = Utils.convertToMCCoordinates(savedCoordinates[i][1], savedCoordinates[i][0]);
@@ -251,7 +253,7 @@ public class GeometryEditor
             //Lines connecting points on the old outline
             //Calculates the line between two points on the perimeter
             iPoint1 = new int[]{(int) savedCoordinates[i][0], (int) savedCoordinates[i][1]};
-            iPoint2 = new int[]{(int) savedCoordinates[i][0], (int) savedCoordinates[i][1]};
+            iPoint2 = new int[]{(int) savedCoordinates[i+1][0], (int) savedCoordinates[i+1][1]};
 
             locations = Utils.LineCalculator2D(iPoint1, iPoint2, this.player.getWorld());
             iNumBlocksOnLine = locations.size();
@@ -267,6 +269,11 @@ public class GeometryEditor
         //Final connector line
         if (iNumLocations > 1)
         {
+            //Final POINT on the OLD outline
+            double[] mcCoordsXZ = Utils.convertToMCCoordinates(savedCoordinates[iNumLocations - 2][1], savedCoordinates[iNumLocations - 2][0]);
+            Location location = new Location(player.getWorld(), mcCoordsXZ[0], player.getWorld().getHighestBlockYAt((int) mcCoordsXZ[0], (int) mcCoordsXZ[1]) + 1, mcCoordsXZ[1]);
+            this.player.spawnParticle(Particle.REDSTONE, location, 7, new Particle.DustOptions(Color.PURPLE, 3));
+
             //Calculates the line between the first and last points on the perimeter
             iPoint1 = new int[]{(int) savedCoordinates[iNumLocations - 1][0], (int) savedCoordinates[iNumLocations - 1][1]};
             iPoint2 = new int[]{(int) savedCoordinates[0][0], (int) savedCoordinates[0][1]};
