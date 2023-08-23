@@ -1,5 +1,6 @@
 package me.bteuk.progressmapper;
 
+import me.bteuk.progressmapper.guis.ColourPicker;
 import me.bteuk.progressmapperbackend.maphubapi.maphubobjects.Feature;
 import me.bteuk.progressmapperbackend.maphubapi.maphubobjects.GeometryType;
 import net.kyori.adventure.text.Component;
@@ -16,6 +17,7 @@ public class GeometryEditor
 {
     private Feature feature;
     private Player player;
+    private ColourPicker colourPicker;
 
     private static final int iRows = 3;
 
@@ -25,10 +27,11 @@ public class GeometryEditor
     //A list of locations of perimeter blocks, used for
     private ArrayList<Location> perimeterBlocksList;
 
-    public GeometryEditor(Feature feature, Player player)
+    public GeometryEditor(Feature feature, Player player, ColourPicker colourPicker)
     {
         this.feature = feature;
         this.player = player;
+        this.colourPicker = colourPicker;
 
         this.blockCoordinatesList = new ArrayList<>();
         convertFeatureGeometryIntoBlockCoordinates();
@@ -225,10 +228,22 @@ public class GeometryEditor
         int i;
         int iNumLocations = this.perimeterBlocksList.size();
 
-        //Displays the particles along this line
+        //Displays the particles along the outline of the new area
         for (i = 0 ; i < iNumLocations ; i++)
         {
-            this.player.spawnParticle(Particle.REDSTONE, this.perimeterBlocksList.get(i), 10, new Particle.DustOptions(Color.GREEN, 3));
+            this.player.spawnParticle(Particle.REDSTONE, this.perimeterBlocksList.get(i), 10, new Particle.DustOptions(colourPicker.getBukkitColorObjectFromColour(), 4));
         }
+
+        double[][] savedCoordinates = this.feature.getGeometry().coordinates;
+        iNumLocations = savedCoordinates.length;
+
+        //Displays the particles along the outline of the OLD area
+        for (i = 0 ; i < iNumLocations ; i++)
+        {
+            double[] mcCoordsXZ = Utils.convertToMCCoordinates(savedCoordinates[i][1], savedCoordinates[i][0]);
+            Location location = new Location(player.getWorld(), mcCoordsXZ[0], player.getWorld().getHighestBlockYAt((int) mcCoordsXZ[0], (int) mcCoordsXZ[1]) + 1, mcCoordsXZ[1]);
+            this.player.spawnParticle(Particle.REDSTONE, location, 7, new Particle.DustOptions(Color.PURPLE, 1));
+        }
+
     }
 }
