@@ -212,6 +212,9 @@ public class GeometryEditor
         updateView();
     }
 
+    /**
+     * Sends the player particles showing the outline of the feature's geometry
+     */
     public void updateView()
     {
         int i, j;
