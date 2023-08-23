@@ -27,35 +27,35 @@ public class FeatureMenu
     //It should have several icons which when clicked on allow you to edit a specific property and one for editing the geometry
 
     //Inventory details
-    final int iRows = 3;
-    Player player;
+    private final int iRows = 3;
+    private Player player;
 
     //Menu components
-    private ItemStack titleBook;
-    private ItemStack descriptionBook;
-    private ItemStack mediaURLBook;
+    private final ItemStack titleBook;
+    private final ItemStack descriptionBook;
+    private final ItemStack mediaURLBook;
 
-    private BookMeta titleBookMeta;
-    private BookMeta descriptionBookMeta;
-    private BookMeta mediaURLBookMeta;
+    private final BookMeta titleBookMeta;
+    private final BookMeta descriptionBookMeta;
+    private final BookMeta mediaURLBookMeta;
 
     //Feature details
-    int iMapID;
-    Feature feature;
+    private final int iMapID;
+    private final Feature feature;
 
     //Object details
-    boolean bNew;
+    private final boolean bNew;
     //If true, it represents a new feature
     //If false, it represents a current feature
 
     //Colour GUI
-    private ColourPicker colourPicker;
+    private final ColourPicker colourPicker;
 
     //Geometry handler
-    private GeometryEditor geometryEditor;
+    private final GeometryEditor geometryEditor;
 
     //Used for editing existing features
-    public FeatureMenu(int iMapID, Feature feature, Player player)
+    public FeatureMenu(int iMapID, Feature feature, Player player, GetMap map)
     {
         this.iMapID = iMapID;
         this.feature = feature;
@@ -72,7 +72,34 @@ public class FeatureMenu
         mediaURLBook = new ItemStack(Material.WRITABLE_BOOK);
         mediaURLBookMeta = (BookMeta) titleBook.getItemMeta();
 
+        setupBooks();
+    }
 
+    //Used for adding new features
+    public FeatureMenu(int iMapID, Player player, GetMap map)
+    {
+        this.iMapID = iMapID;
+        this.player = player;
+        this.bNew = true;
+
+        //All new items on the BTE UK map added from the MC server will be polygons
+        this.feature = new Feature(GeometryType.Polygon, ColourPicker.Dark_Orange.asHexString(), "New Feature", "");
+
+        this.colourPicker = new ColourPicker(feature);
+        this.geometryEditor = new GeometryEditor(feature, player, colourPicker);
+
+        titleBook = new ItemStack(Material.WRITABLE_BOOK);
+        titleBookMeta = (BookMeta) titleBook.getItemMeta();
+        descriptionBook = new ItemStack(Material.WRITABLE_BOOK);
+        descriptionBookMeta = (BookMeta) titleBook.getItemMeta();
+        mediaURLBook = new ItemStack(Material.WRITABLE_BOOK);
+        mediaURLBookMeta = (BookMeta) titleBook.getItemMeta();
+
+        setupBooks();
+    }
+
+    private void setupBooks()
+    {
         //Setup title book
         titleBookMeta.setTitle("Edit Title");
         if (feature.getProperties().title == null)
@@ -118,14 +145,6 @@ public class FeatureMenu
         mediaURLBook.setItemMeta(mediaURLBookMeta);
     }
 
-    //Used for adding new features
-    public FeatureMenu(int iMapID, Player player)
-    {
-        this.iMapID = iMapID;
-        this.player = player;
-        this.bNew = true;
-    }
-
     public boolean isNew()
     {
         return bNew;
@@ -157,10 +176,10 @@ public class FeatureMenu
 
     public Inventory getGUI()
     {
-        if (bNew)
-            return getGuiNewFeature();
-        else
-            return getEditGUI();
+//        if (bNew)
+//            return getGuiNewFeature();
+//        else
+        return getEditGUI();
     }
 
     private Inventory getEditGUI()
@@ -212,23 +231,6 @@ public class FeatureMenu
 
         //Back - A button which links to the coordinate menu
         Utils.insertItemIntoInventory(inventory, Material.SPRUCE_DOOR, 1, 27,(ChatColor.AQUA +"" +ChatColor.BOLD +"Return"), ChatColor.WHITE +"Return to the list of nearby map features");
-        return inventory;
-    }
-
-    private Inventory getGuiNewFeature()
-    {
-        //Called when creating a new feature, and also every time an edit is made to a new feature (the inventory display needs to refresh/update)
-
-
-        Component component = Component.text("Create Feature", Style.style(TextColor.color(Color.AQUA.asRGB()), TextDecoration.BOLD));
-        Inventory inventory = Bukkit.createInventory(null, iRows, component);
-
-        Properties properties = new Properties("#555555", "Title", "Description");
-        properties.media_url = "";
-        Geometry geometry = new Geometry(GeometryType.Polygon); //All new items on the BTE UK map added from the MC server will be polygons
-        geometry.coordinates = new double[0][2];
-
-        this.feature = new Feature(geometry, properties);
         return inventory;
     }
 

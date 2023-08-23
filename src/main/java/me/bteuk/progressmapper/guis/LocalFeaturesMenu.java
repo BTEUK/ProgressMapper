@@ -37,7 +37,11 @@ public class LocalFeaturesMenu
 
         extractCoordinatesFromPlayer();
         if (dPlayerCoordinates != null)
+        {
+            //Downloads the map
+            //Adds a blank feature to the list of features which can be edited and then uploaded to the progress map
             loadFeatures(szMapHubAPIKey);
+        }
     }
 
     //Public because we may want to update the GUI whilst still keeping this same LocalFeaturesMenu object
@@ -52,12 +56,23 @@ public class LocalFeaturesMenu
     }
 
     //Public because we may want to update the GUI whilst still keeping this same LocalFeaturesMenu object
+
+    /**
+     * Downloads the map, locates the features local to the player and creates FeatureMenus for each feature
+     * @param szMapHubAPIKey
+     */
     public void loadFeatures(String szMapHubAPIKey)
     {
         map = GetMap.getMap(szMapHubAPIKey, iMapID, false);
         locateLocalFeaturesAndCreateAndStoreTheirFeatureMenus();
+
+        //Adds a blank feature to the list of features which can be edited and then uploaded to the progress map
+        createBlankFeature();
     }
 
+    /**
+     * Locates the features local to the player and creates FeatureMenus for each feature
+     */
     private void locateLocalFeaturesAndCreateAndStoreTheirFeatureMenus()
     {
         Feature[] mapFeatures;
@@ -87,12 +102,21 @@ public class LocalFeaturesMenu
                 if (Utils.getGeometricDistance(dPlayerCoordinates, coordinates[j]) < 500)
                 {
                     //If the feature is close, create a FeatureMenu for it and store it in the list
-                    FeatureMenu featureMenu = new FeatureMenu(iMapID, mapFeatures[i], player);
+                    FeatureMenu featureMenu = new FeatureMenu(iMapID, mapFeatures[i], player, map);
                     localFeatures.add(featureMenu);
                     break;
                 }
             }
         }
+    }
+
+    /**
+     * Adds a blank feature to the list of features which can be edited and then uploaded to the progress map
+     */
+    private void createBlankFeature()
+    {
+        FeatureMenu featureMenu = new FeatureMenu(iMapID, player, map);
+        localFeatures.add(featureMenu);
     }
 
     public int getNumFeatures()
@@ -123,7 +147,7 @@ public class LocalFeaturesMenu
         Inventory inventory = Bukkit.createInventory(null, iRows*9, component);
 
         //Creates all of the inventory items
-        for (i = 0 ; i < iFeatures ; i++)
+        for (i = 0 ; i < iFeatures - 1 ; i++)
         {
             //Add feature
             String szTitle = getFeatureMenu(i).feature.getProperties().title;
@@ -137,6 +161,10 @@ public class LocalFeaturesMenu
         if (iFeatures == 0)
         {
             Utils.insertItemIntoInventory(inventory, Material.BARRIER, 1, 1,(ChatColor.AQUA +"No map features found nearby"));
+        }
+        else
+        {
+            Utils.insertItemIntoInventory(inventory, Material.JUNGLE_SIGN, 1, iFeatures,(ChatColor.AQUA +"Create New Feature"));
         }
 
         //Back - A button which links to the building menu
