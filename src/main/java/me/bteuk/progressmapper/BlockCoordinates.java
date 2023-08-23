@@ -21,8 +21,11 @@ public class BlockCoordinates
         //Converts the geometric coordinates to minecraft coordinates
         double[] xzDoubleCoordinates = Utils.convertToMCCoordinates(dLatitude, dLongitude);
 
-        //Makes the minecraft coordinates integers
-        xzCoordinates = new long[]{(long) xzDoubleCoordinates[0], (long) xzDoubleCoordinates[1]};
+        if (xzDoubleCoordinates == null)
+            System.out.println("The coordinates were out of bounds, unable to create block coordinates");
+        else
+            //Makes the minecraft coordinates integers
+            xzCoordinates = new long[]{(long) xzDoubleCoordinates[0], (long) xzDoubleCoordinates[1]};
     }
 
     /**

@@ -3,17 +3,11 @@ package me.bteuk.progressmapper;
 import net.buildtheearth.terraminusminus.generator.EarthGeneratorSettings;
 import net.buildtheearth.terraminusminus.projection.GeographicProjection;
 import net.buildtheearth.terraminusminus.projection.OutOfProjectionBoundsException;
-import net.buildtheearth.terraminusminus.util.geo.LatLng;
 import net.kyori.adventure.text.Component;
 import org.bukkit.*;
-import org.bukkit.FireworkEffect.Type;
-import org.bukkit.entity.Firework;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,7 +70,7 @@ public class Utils {
         return item;
     }
 
-    //Long lat form
+    //Long then lat form
     public static float getGeometricDistance(double[] dCoordinates1, double[] dCoordinates2)
     {
         //Tpll accuracy checker
@@ -138,6 +132,12 @@ public class Utils {
         return longLat;
     }
 
+    /**
+     * Converts a geographical coordinate into the minecraft coordinates based on the Build the Earth default projection
+     * @param dLatitude The latitude in degrees of the geographical coordinate
+     * @param dLongitude The longitude in degrees of the geographical coordinate
+     * @return The minecraft coordinates on the Build the Earth default projection for the given geographical coordinate. Null if the coordinates were out of bounds
+     */
     public static double[] convertToMCCoordinates(double dLatitude, double dLongitude)
     {
         double[] xz = null;

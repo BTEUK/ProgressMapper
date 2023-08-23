@@ -54,36 +54,52 @@ public class GeometryEditor
     }
 
     /**
-     * Creates a list of minecraft block coordinates from the geometry of the feature and saves this in the list
+     * Creates a list of minecraft block coordinates from the geometry of the feature and saves this in the Geometry editor list
      */
     public void convertFeatureGeometryIntoBlockCoordinates()
     {
+        System.out.println("Converting feature's geometry (as stored in the feature object) into block coordinates");
+
         double[][] dCoordinatesOfGeometry = feature.getGeometry().coordinates;
         int iNumCoordinates = dCoordinatesOfGeometry.length;
         int i;
 
+        System.out.println("There are " +iNumCoordinates +" coordinates in the feature");
+
         double dLatitude, dLongitude;
+
+        //This if statement ensures that block coordinates always represent the geometry without the closing side connecting
+        // the final and first point. This is because when clicking confirm geometry after making no changes it will always add
+        // in the closing side. We do not want it to ever change the coordinates on the map when a player clicks confirm
+        // after making no changes in game
+        if (feature.getGeometry().getType().equals(GeometryType.Polygon))
+            iNumCoordinates = iNumCoordinates - 1;
+
+        //Goes through each point on the geometry of a feature and creates a block coordinate based on the latitude and longitude
         for (i = 0 ; i < iNumCoordinates ; i++)
         {
             //Feature coordinates are in Long, lat form
-            dLatitude = dCoordinatesOfGeometry[i][0];
-            dLongitude = dCoordinatesOfGeometry[i][1];
+            dLongitude = dCoordinatesOfGeometry[i][0];
+            dLatitude = dCoordinatesOfGeometry[i][1];
 
             BlockCoordinates blockCoordinates = new BlockCoordinates(dLatitude, dLongitude);
-            this.blockCoordinatesList.add(blockCoordinates);
+
+            //Only adds points to the list if the coordinates could be produced
+            if (blockCoordinates.xzCoordinates != null)
+                this.blockCoordinatesList.add(blockCoordinates);
         }
     }
 
     /**
      * Creates a list of geometric coordinates from the list of block coordinates that have been stored
      */
-    private double[][] convertFeatureGeometryIntoGeometric()
+    private double[][] convertFeatureGeometryFromBlockCoordinatesIntoGeographical()
     {
         int i;
 
         //Creates the geometric coordinates array
         int iNumCoordinates = this.blockCoordinatesList.size();
-
+        System.out.println("There are " +iNumCoordinates +" block coordinates");
         double[][] dCoordinatesOfGeometry;
 
         if (feature.getGeometry().getType().equals(GeometryType.Polygon))
@@ -96,13 +112,21 @@ public class GeometryEditor
         for (i = 0 ; i < iNumCoordinates ; i++)
         {
             longLat = blockCoordinatesList.get(i).convertToGeometricCoordinates();
-            dCoordinatesOfGeometry[i] = longLat;
+            dCoordinatesOfGeometry[i][0] = longLat[0];
+            dCoordinatesOfGeometry[i][1] = longLat[1];
+
+            System.out.println("Adding coordinate, Longitude: "+dCoordinatesOfGeometry[i][0] +", latitude: "+dCoordinatesOfGeometry[i][1]);
         }
 
-        //Sets the start as the end
+        //Sets the start as the end if a polygon
         if (feature.getGeometry().getType().equals(GeometryType.Polygon))
-            dCoordinatesOfGeometry[iNumCoordinates] = dCoordinatesOfGeometry[0];
+        {
+            dCoordinatesOfGeometry[iNumCoordinates][0] = dCoordinatesOfGeometry[0][0];
+            dCoordinatesOfGeometry[iNumCoordinates][1] = dCoordinatesOfGeometry[0][1];
+            System.out.println("Adding end connector - connects the final point back to the first point since this is a polygon");
+            System.out.println(" -- Adding coordinate, Longitude: "+dCoordinatesOfGeometry[i][0] +", latitude: "+dCoordinatesOfGeometry[i][1]);
 
+        }
         return dCoordinatesOfGeometry;
     }
 
@@ -111,7 +135,8 @@ public class GeometryEditor
      */
     public void confirmGeometry()
     {
-        feature.getGeometry().coordinates = convertFeatureGeometryIntoGeometric();
+        feature.getGeometry().coordinates = convertFeatureGeometryFromBlockCoordinatesIntoGeographical();
+        System.out.println("Coordinates now in the feature object:");
         for (int i = 0 ; i < feature.getGeometry().coordinates.length ; i++)
         {
             System.out.println(feature.getGeometry().coordinates[0] +", " +feature.getGeometry().coordinates[1]);
