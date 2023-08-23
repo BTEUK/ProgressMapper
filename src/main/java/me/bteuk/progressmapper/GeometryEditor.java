@@ -217,11 +217,13 @@ public class GeometryEditor
         int i, j;
         int iNumLocations = this.perimeterBlocksList.size();
 
-        //Displays the particles along the outline of the new area
-        for (i = 0 ; i < iNumLocations ; i++)
+        //Displays the particles along the outline of the NEW area
+        this.player.spawnParticle(Particle.REDSTONE, this.perimeterBlocksList.get(0).add(0, 0, 0), 10, new Particle.DustOptions(colourPicker.getBukkitColorObjectFromColour(), 6));
+        for (i = 1 ; i < iNumLocations - 1; i++)
         {
-            this.player.spawnParticle(Particle.REDSTONE, this.perimeterBlocksList.get(i), 10, new Particle.DustOptions(colourPicker.getBukkitColorObjectFromColour(), 4));
+            this.player.spawnParticle(Particle.REDSTONE, this.perimeterBlocksList.get(i).add(0.5, 0, 0.5), 10, new Particle.DustOptions(colourPicker.getBukkitColorObjectFromColour(), 4));
         }
+        this.player.spawnParticle(Particle.REDSTONE, this.perimeterBlocksList.get(iNumLocations-1).add(0, 0, 0), 10, new Particle.DustOptions(colourPicker.getBukkitColorObjectFromColour(), 6));
 
         ArrayList<Location> locations;
         double[][] savedCoordinates = this.feature.getGeometry().coordinates;
@@ -233,7 +235,7 @@ public class GeometryEditor
         //Displays the particles along the outline of the OLD area
         for (i = 0 ; i < iNumLocations ; i++)
         {
-            //Each point on the old outline
+            //Each POINT on the OLD outline
             double[] mcCoordsXZ = Utils.convertToMCCoordinates(savedCoordinates[i][1], savedCoordinates[i][0]);
             Location location = new Location(player.getWorld(), mcCoordsXZ[0], player.getWorld().getHighestBlockYAt((int) mcCoordsXZ[0], (int) mcCoordsXZ[1]) + 1, mcCoordsXZ[1]);
             this.player.spawnParticle(Particle.REDSTONE, location, 7, new Particle.DustOptions(Color.PURPLE, 3));
@@ -246,27 +248,27 @@ public class GeometryEditor
             locations = Utils.LineCalculator2D(iPoint1, iPoint2, this.player.getWorld());
             iNumBlocksOnLine = locations.size();
 
-            //Adds all of the points on this line to the perimeter blocks list
-            for (j = 0 ; j < iNumBlocksOnLine ; j++)
+            //Displays all of the points on this line apart from the end points
+            for (j = 1 ; j < iNumBlocksOnLine - 1 ; j++)
             {
-                this.player.spawnParticle(Particle.REDSTONE, location, 7, new Particle.DustOptions(Color.PURPLE, 1));
+                this.player.spawnParticle(Particle.REDSTONE, locations.get(j).add(0.5, 0, 0.5), 7, new Particle.DustOptions(Color.PURPLE, 1));
             }
+        }
 
-            //Final connector line
-            if (iNumLocations > 1)
+        //Final connector line
+        if (iNumLocations > 1)
+        {
+            //Calculates the line between the first and last points on the perimeter
+            iPoint1 = new int[]{(int) savedCoordinates[iNumLocations - 1][0], (int) savedCoordinates[iNumLocations - 1][1]};
+            iPoint2 = new int[]{(int) savedCoordinates[0][0], (int) savedCoordinates[0][1]};
+
+            locations = Utils.LineCalculator2D(iPoint1, iPoint2, this.player.getWorld());
+            iNumBlocksOnLine = locations.size();
+
+            //Displays all of the points on this line apart from the end points
+            for (j = 1 ; j < iNumBlocksOnLine - 1 ; j++)
             {
-                //Calculates the line between the first and last points on the perimeter
-                iPoint1 = new int[]{(int) savedCoordinates[iNumLocations - 1][0], (int) savedCoordinates[iNumLocations - 1][1]};
-                iPoint2 = new int[]{(int) savedCoordinates[0][0], (int) savedCoordinates[0][1]};
-
-                locations = Utils.LineCalculator2D(iPoint1, iPoint2, this.player.getWorld());
-                iNumBlocksOnLine = locations.size();
-
-                //Adds all of the points on this line to the perimeter blocks list
-                for (j = 0 ; j < iNumBlocksOnLine ; j++)
-                {
-                    this.player.spawnParticle(Particle.REDSTONE, location, 7, new Particle.DustOptions(Color.PURPLE, 1));
-                }
+                this.player.spawnParticle(Particle.REDSTONE, locations.get(j).add(0.5, 0, 0.5), 7, new Particle.DustOptions(Color.PURPLE, 1));
             }
         }
     }

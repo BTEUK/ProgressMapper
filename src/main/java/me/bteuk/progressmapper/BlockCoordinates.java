@@ -9,7 +9,7 @@ public class BlockCoordinates
 
     public double[] convertToGeometricCoordinates()
     {
-        double[] geometricCoordinates = Utils.convertFromMcCoordinatesToGeometricCoordinates(xzCoordinates[0], xzCoordinates[1]);
+        double[] geometricCoordinates = Utils.convertFromMcCoordinatesToGeometricCoordinates(xzCoordinates[0] + 0.5, xzCoordinates[1] + 0.5);
         return geometricCoordinates;
     }
 

@@ -114,7 +114,7 @@ public class Utils {
         return longLat;
     }
 
-    public static double[] convertFromMcCoordinatesToGeometricCoordinates(long x, long z)
+    public static double[] convertFromMcCoordinatesToGeometricCoordinates(double x, double z)
     {
         double[] longLat = null;
 
