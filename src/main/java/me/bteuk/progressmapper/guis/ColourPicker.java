@@ -292,7 +292,7 @@ public class ColourPicker
     }
 
     /**
-     * Saves the colour of the feature being edited to the feature's object
+     * Saves the colour of the feature being edited to the feature's object as a hex value
      */
     public void confirmColour()
     {
