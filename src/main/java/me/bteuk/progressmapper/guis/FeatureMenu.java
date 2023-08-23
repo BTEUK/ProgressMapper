@@ -78,12 +78,12 @@ public class FeatureMenu
         if (feature.getProperties().title == null)
         {
             titleBookMeta.addPages(Component.text(""));
-            System.out.println("Title was empty");
+//            System.out.println("Title was empty");
         }
         else
         {
             titleBookMeta.addPages(Component.text(feature.getProperties().title));
-            System.out.println("Title set as: " +titleBookMeta.page(1));
+//            System.out.println("Title set as: " +titleBookMeta.page(1));
         }
 
         //Setup description book
@@ -91,12 +91,12 @@ public class FeatureMenu
         if (feature.getProperties().description == null)
         {
             descriptionBookMeta.addPages(Component.text(""));
-            System.out.println("Description was empty");
+//            System.out.println("Description was empty");
         }
         else
         {
             descriptionBookMeta.addPages(Component.text(feature.getProperties().description));
-            System.out.println("Description set as: " +descriptionBookMeta.page(1));
+//            System.out.println("Description set as: " +descriptionBookMeta.page(1));
         }
 
         //Setup media_url book
@@ -104,12 +104,12 @@ public class FeatureMenu
         if (feature.getProperties().media_url == null)
         {
             mediaURLBookMeta.addPages(Component.text(""));
-            System.out.println("Media url was empty");
+//            System.out.println("Media url was empty");
         }
         else
         {
             mediaURLBookMeta.addPages(Component.text(feature.getProperties().media_url));
-            System.out.println("Media url set as: " +mediaURLBookMeta.page(1));
+//            System.out.println("Media url set as: " +mediaURLBookMeta.page(1));
         }
 
         //Adds the new metas to the books

@@ -61,13 +61,11 @@ public class GeometryEditor
      */
     public void convertFeatureGeometryIntoBlockCoordinates()
     {
-        System.out.println("Converting feature's geometry (as stored in the feature object) into block coordinates");
-
         double[][] dCoordinatesOfGeometry = feature.getGeometry().coordinates;
         int iNumCoordinates = dCoordinatesOfGeometry.length;
         int i;
 
-        System.out.println("There are " +iNumCoordinates +" coordinates in the feature");
+//        System.out.println("Converting feature's geometry (as stored in the feature object) into block coordinates, There are " +iNumCoordinates +" coordinates in the feature");
 
         double dLatitude, dLongitude;
 
@@ -102,7 +100,7 @@ public class GeometryEditor
 
         //Creates the geometric coordinates array
         int iNumCoordinates = this.blockCoordinatesList.size();
-        System.out.println("There are " +iNumCoordinates +" block coordinates");
+//        System.out.println("There are " +iNumCoordinates +" block coordinates");
         double[][] dCoordinatesOfGeometry;
 
         if (feature.getGeometry().getType().equals(GeometryType.Polygon))
@@ -117,8 +115,6 @@ public class GeometryEditor
             longLat = blockCoordinatesList.get(i).convertToGeometricCoordinates();
             dCoordinatesOfGeometry[i][0] = longLat[0];
             dCoordinatesOfGeometry[i][1] = longLat[1];
-
-            System.out.println("Adding coordinate, Longitude: "+dCoordinatesOfGeometry[i][0] +", latitude: "+dCoordinatesOfGeometry[i][1]);
         }
 
         //Sets the start as the end if a polygon
@@ -126,8 +122,6 @@ public class GeometryEditor
         {
             dCoordinatesOfGeometry[iNumCoordinates][0] = dCoordinatesOfGeometry[0][0];
             dCoordinatesOfGeometry[iNumCoordinates][1] = dCoordinatesOfGeometry[0][1];
-            System.out.println("Adding end connector - connects the final point back to the first point since this is a polygon");
-            System.out.println(" -- Adding coordinate, Longitude: "+dCoordinatesOfGeometry[i][0] +", latitude: "+dCoordinatesOfGeometry[i][1]);
 
         }
         return dCoordinatesOfGeometry;
@@ -139,11 +133,6 @@ public class GeometryEditor
     public void confirmGeometry()
     {
         feature.getGeometry().coordinates = convertFeatureGeometryFromBlockCoordinatesIntoGeographical();
-        System.out.println("Coordinates now in the feature object:");
-        for (int i = 0 ; i < feature.getGeometry().coordinates.length ; i++)
-        {
-            System.out.println(feature.getGeometry().coordinates[0] +", " +feature.getGeometry().coordinates[1]);
-        }
     }
 
     public void leftClick(long x, long z)
