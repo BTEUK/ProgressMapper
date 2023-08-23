@@ -307,4 +307,9 @@ public class ColourPicker
                 break;
         }
     }
+
+    public Color getBukkitColorObjectFromColour()
+    {
+        return Color.fromRGB(textColour.value());
+    }
 }
