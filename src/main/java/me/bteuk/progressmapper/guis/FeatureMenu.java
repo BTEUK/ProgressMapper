@@ -41,7 +41,7 @@ public class FeatureMenu
 
     //Feature details
     private final int iMapID;
-    private final Feature feature;
+    final Feature feature;
 
     //Object details
     private final boolean bNew;
