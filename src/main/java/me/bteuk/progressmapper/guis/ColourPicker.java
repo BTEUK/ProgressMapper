@@ -180,7 +180,7 @@ public class ColourPicker
         //-------------- Line 5 - Colour display --------------
         //-----------------------------------------------------
         //Displays the colour
-        Component colourDisplay = Component.text("This is the colour you've chosen", Style.style(textColour, TextDecoration.BOLD));
+        Component colourDisplay = Component.text("This is the colour you've chosen. Click to confirm.", Style.style(textColour, TextDecoration.BOLD));
         Component loreLine1 = Component.text(textColour.asHexString(), Style.style(textColour, TextDecoration.BOLD));
         List<Component> lore = new ArrayList();
         lore.add(loreLine1);
