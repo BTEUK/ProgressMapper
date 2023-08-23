@@ -217,20 +217,25 @@ public class GeometryEditor
         int i, j;
         int iNumLocations = this.perimeterBlocksList.size();
 
+        Location spawnParticleLocation = new Location(player.getWorld(), 0, 0, 0);
+
         //Displays the particles along the outline of the NEW area
-        this.player.spawnParticle(Particle.REDSTONE, this.perimeterBlocksList.get(0).add(0, 0, 0), 10, new Particle.DustOptions(colourPicker.getBukkitColorObjectFromColour(), 6));
+        this.player.spawnParticle(Particle.REDSTONE, this.perimeterBlocksList.get(0), 10, new Particle.DustOptions(colourPicker.getBukkitColorObjectFromColour(), 6));
         for (i = 1 ; i < iNumLocations - 1; i++)
         {
-            this.player.spawnParticle(Particle.REDSTONE, this.perimeterBlocksList.get(i).add(0.5, 0, 0.5), 10, new Particle.DustOptions(colourPicker.getBukkitColorObjectFromColour(), 4));
+            spawnParticleLocation.add(this.perimeterBlocksList.get(i), 0.5, 0, 0.5);
+            this.player.spawnParticle(Particle.REDSTONE, spawnParticleLocation, 10, new Particle.DustOptions(colourPicker.getBukkitColorObjectFromColour(), 4));
         }
-        this.player.spawnParticle(Particle.REDSTONE, this.perimeterBlocksList.get(iNumLocations-1).add(0, 0, 0), 10, new Particle.DustOptions(colourPicker.getBukkitColorObjectFromColour(), 6));
+        this.player.spawnParticle(Particle.REDSTONE, this.perimeterBlocksList.get(iNumLocations-1), 10, new Particle.DustOptions(colourPicker.getBukkitColorObjectFromColour(), 6));
 
         ArrayList<Location> locations;
+
         double[][] savedCoordinates = this.feature.getGeometry().coordinates;
         iNumLocations = savedCoordinates.length;
         int[] iPoint1;
         int[] iPoint2;
         int iNumBlocksOnLine;
+
 
         //Displays the particles along the outline of the OLD area
         for (i = 0 ; i < iNumLocations ; i++)
@@ -251,7 +256,8 @@ public class GeometryEditor
             //Displays all of the points on this line apart from the end points
             for (j = 1 ; j < iNumBlocksOnLine - 1 ; j++)
             {
-                this.player.spawnParticle(Particle.REDSTONE, locations.get(j).add(0.5, 0, 0.5), 7, new Particle.DustOptions(Color.PURPLE, 1));
+                spawnParticleLocation.add(locations.get(j), 0.5, 0, 0.5);
+                this.player.spawnParticle(Particle.REDSTONE, spawnParticleLocation, 7, new Particle.DustOptions(Color.PURPLE, 1));
             }
         }
 
@@ -268,7 +274,8 @@ public class GeometryEditor
             //Displays all of the points on this line apart from the end points
             for (j = 1 ; j < iNumBlocksOnLine - 1 ; j++)
             {
-                this.player.spawnParticle(Particle.REDSTONE, locations.get(j).add(0.5, 0, 0.5), 7, new Particle.DustOptions(Color.PURPLE, 1));
+                spawnParticleLocation.add(locations.get(j), 0.5, 0, 0.5);
+                this.player.spawnParticle(Particle.REDSTONE, spawnParticleLocation, 7, new Particle.DustOptions(Color.PURPLE, 1));
             }
         }
     }
