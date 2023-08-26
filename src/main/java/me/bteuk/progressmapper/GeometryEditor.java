@@ -38,11 +38,18 @@ public class GeometryEditor
         updatePerimeterBlocksList();
     }
 
+    /**
+     * @return The list of coordinates defining the corners of the geometry
+     */
     public ArrayList<BlockCoordinates> getBlockCoordinatesList()
     {
         return this.blockCoordinatesList;
     }
 
+    /**
+     * Creates a GUI for the GeometryEditor, containing a cancel button as a barrier and a confirm button as an emerald, with suitable texts
+     * @return An inventory with two buttons
+     */
     public Inventory getGUI()
     {
         //3 is cancel
@@ -135,6 +142,11 @@ public class GeometryEditor
         feature.getGeometry().coordinates = convertFeatureGeometryFromBlockCoordinatesIntoGeographical();
     }
 
+    /**
+     * Adds a pair of minecraft coordinates to the end of the list of block coordinates making up the geometry of the feature being edited
+     * @param x The minecraft x coordinate of the block that was clicked
+     * @param z The minecraft z coordinate of the block that was clicked
+     */
     public void leftClick(long x, long z)
     {
         //Resets the list
@@ -147,6 +159,11 @@ public class GeometryEditor
         updatePerimeterBlocksList();
     }
 
+    /**
+     * Removes all points from the list of block coordinates making up the geometry of the feature being edited and then starts a new list with the pair of coordinates parsed
+     * @param x The minecraft x coordinate of the block that was clicked
+     * @param z The minecraft z coordinate of the block that was clicked
+     */
     public void rightClick(long x, long z)
     {
         //Adds a point
@@ -156,6 +173,9 @@ public class GeometryEditor
         updatePerimeterBlocksList();
     }
 
+    /**
+     * Updates the list of blocks making up the lines outlining the entire perimeter based on corners specified by the block coordinates list
+     */
     private void updatePerimeterBlocksList()
     {
         int i, j;
@@ -240,7 +260,6 @@ public class GeometryEditor
         int[] iPoint1;
         int[] iPoint2;
         int iNumBlocksOnLine;
-
 
         //Displays the particles along the outline of the OLD area
         for (i = 0 ; i < iNumLocations - 1 ; i++)
